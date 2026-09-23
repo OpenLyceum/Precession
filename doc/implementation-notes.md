@@ -64,7 +64,7 @@ Wire `TimeControlNode` to `model.timer.isPlayingProperty` in the view.
 
 ### SimButtonOptions
 
-Spread flat button options into every push/round button and `TimeControlNode` (see `CLAUDE.md`).
+Spread flat button options into every push/round button and `TimeControlNode` (see `AGENTS.md`).
 Use `SIM_COMBO_BOX_OPTIONS` + `LIGHT_SURFACE_TEXT_FILL` for light control surfaces on dark panels.
 
 ## Accessibility (reference implementation)
