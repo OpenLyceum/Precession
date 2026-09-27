@@ -35,7 +35,7 @@ src/common/
 
 ## Adding a screen
 
-Follow [multi-screen.md](./multi-screen.md). Mirror `src/steady-precession-screen/`, register the screen in `main.ts`, add the locale keys, and wire `homeScreenIcon` and `navigationBarIcon` from the shared icons module.
+Follow [SceneryStackTemplate `doc/multi-screen.md`](https://github.com/OpenLyceum/SceneryStackTemplate/blob/main/doc/multi-screen.md). Mirror `src/steady-precession-screen/`, register the screen in `main.ts`, add the locale keys, and wire `homeScreenIcon` and `navigationBarIcon` from the shared icons module.
 
 ## Testing
 
