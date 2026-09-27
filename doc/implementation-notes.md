@@ -15,9 +15,9 @@ main.ts
 src/common/
   ├─ rigid-body/                 physics shared by the screens
   ├─ view/                       camera, wheel, charts, stage
-  ├─ RigidBodyPrecessionScreenIcons.ts
-  ├─ SimPanel.ts
-  ├─ SimButtonOptions.ts
+  ├─ PrecessionScreenIcons.ts
+  ├─ PrecessionPanel.ts
+  ├─ PrecessionButtonOptions.ts
   └─ TimeModel.ts
 ```
 
@@ -31,7 +31,7 @@ src/common/
 | `src/nutation-screen/` | `NutationModel` | `HeavySymmetricTopPhysics.ts` |
 | `src/torque-free-screen/` | `TorqueFreeModel` | `TorqueFreePhysics.ts` (Euler + quaternion RK4) |
 
-`TimeModel` is the play/pause clock composed into the animated models. Screen icons are `src/common/RigidBodyPrecessionScreenIcons.ts`.
+`TimeModel` is the play/pause clock composed into the animated models. Screen icons are `src/common/PrecessionScreenIcons.ts`.
 
 ## Adding a screen
 

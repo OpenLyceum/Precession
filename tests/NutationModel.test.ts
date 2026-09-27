@@ -11,7 +11,7 @@ import {
   NUTATION_MAX_TILT_RAD,
   NUTATION_TILT_RANGE,
   NUTATION_TRACE_CAPACITY,
-} from "../src/RigidBodyPrecessionConstants.js";
+} from "../src/PrecessionConstants.js";
 
 function run(model: NutationModel, seconds: number): void {
   const frames = Math.round(seconds * 60);

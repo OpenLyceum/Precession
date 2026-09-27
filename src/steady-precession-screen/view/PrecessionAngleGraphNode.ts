@@ -21,8 +21,8 @@ import { Orientation } from "scenerystack/phet-core";
 import { HBox, Node, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { calculateTickSpacing, tickDecimalsFor } from "../../common/view/BambooChartUtils.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { PRECESSION_GRAPH_HEIGHT } from "../../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { PRECESSION_GRAPH_HEIGHT } from "../../PrecessionConstants.js";
 import type { SteadyPrecessionModel } from "../model/SteadyPrecessionModel.js";
 
 const CHART_HEIGHT = PRECESSION_GRAPH_HEIGHT;
@@ -36,7 +36,7 @@ const LEGEND_FONT = new PhetFont({ size: 10 });
 const TICK_LABEL_FONT = new PhetFont({ size: 10 });
 const TICK_EXTENT = 6;
 
-function legendSwatch(color: typeof RigidBodyPrecessionColors.graphTraceColorProperty, dashed = false): Node {
+function legendSwatch(color: typeof PrecessionColors.graphTraceColorProperty, dashed = false): Node {
   if (dashed) {
     return new Rectangle(0, 0, 18, 3, {
       fill: color,
@@ -83,8 +83,8 @@ export class PrecessionAngleGraphNode extends Node {
     const chartOrigin = new Vector2(Y_AXIS_GUTTER, 0);
 
     const chartRectangle = new ChartRectangle(this.chartTransform, {
-      fill: RigidBodyPrecessionColors.graphBackgroundColorProperty,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      fill: PrecessionColors.graphBackgroundColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
       lineWidth: 1,
       cornerRadius: 4,
     });
@@ -93,16 +93,16 @@ export class PrecessionAngleGraphNode extends Node {
     const initialYSpacing = 1;
 
     this.verticalGrid = new GridLineSet(this.chartTransform, Orientation.VERTICAL, initialXSpacing, {
-      stroke: RigidBodyPrecessionColors.graphGridColorProperty,
+      stroke: PrecessionColors.graphGridColorProperty,
       lineWidth: 0.5,
     });
     this.horizontalGrid = new GridLineSet(this.chartTransform, Orientation.HORIZONTAL, initialYSpacing, {
-      stroke: RigidBodyPrecessionColors.graphGridColorProperty,
+      stroke: PrecessionColors.graphGridColorProperty,
       lineWidth: 0.5,
     });
 
     this.predictionPlot = new LinearEquationPlot(this.chartTransform, 0, 0, {
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
       lineWidth: 1.5,
       lineDash: [6, 4],
       opacity: 0.75,
@@ -110,7 +110,7 @@ export class PrecessionAngleGraphNode extends Node {
     });
 
     this.dataPlot = new LinePlot(this.chartTransform, [], {
-      stroke: RigidBodyPrecessionColors.graphTraceColorProperty,
+      stroke: PrecessionColors.graphTraceColorProperty,
       lineWidth: 2.5,
     });
 
@@ -122,12 +122,12 @@ export class PrecessionAngleGraphNode extends Node {
     this.xTickMarks = new TickMarkSet(this.chartTransform, Orientation.HORIZONTAL, initialXSpacing, {
       edge: "min",
       extent: TICK_EXTENT,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
     });
     this.yTickMarks = new TickMarkSet(this.chartTransform, Orientation.VERTICAL, initialYSpacing, {
       edge: "min",
       extent: TICK_EXTENT,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
     });
     this.xTickLabels = new TickLabelSet(this.chartTransform, Orientation.HORIZONTAL, initialXSpacing, {
       edge: "min",
@@ -135,7 +135,7 @@ export class PrecessionAngleGraphNode extends Node {
       createLabel: (value) =>
         new Text(toFixed(value, 1), {
           font: TICK_LABEL_FONT,
-          fill: RigidBodyPrecessionColors.textColorProperty,
+          fill: PrecessionColors.textColorProperty,
           maxWidth: 36,
         }),
     });
@@ -147,7 +147,7 @@ export class PrecessionAngleGraphNode extends Node {
       createLabel: (value) =>
         new Text(toFixed(value, this.yDecimals), {
           font: TICK_LABEL_FONT,
-          fill: RigidBodyPrecessionColors.textColorProperty,
+          fill: PrecessionColors.textColorProperty,
           maxWidth: 36,
         }),
     });
@@ -160,7 +160,7 @@ export class PrecessionAngleGraphNode extends Node {
 
     const yTitle = new Text("φ (rad)", {
       font: AXIS_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       rotation: -Math.PI / 2,
       centerY: CHART_HEIGHT / 2,
       // Outside the tick labels, which hang off the chart's left edge.
@@ -168,7 +168,7 @@ export class PrecessionAngleGraphNode extends Node {
     });
     const xTitle = new Text("t (s)", {
       font: AXIS_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       centerX: Y_AXIS_GUTTER + width / 2,
       top: CHART_HEIGHT + 16,
     });
@@ -183,16 +183,16 @@ export class PrecessionAngleGraphNode extends Node {
           spacing: 4,
           align: "center",
           children: [
-            legendSwatch(RigidBodyPrecessionColors.graphTraceColorProperty),
-            new Text("φ(t)", { font: LEGEND_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
+            legendSwatch(PrecessionColors.graphTraceColorProperty),
+            new Text("φ(t)", { font: LEGEND_FONT, fill: PrecessionColors.textColorProperty }),
           ],
         }),
         new HBox({
           spacing: 4,
           align: "center",
           children: [
-            legendSwatch(RigidBodyPrecessionColors.precessionColorProperty, true),
-            new Text("slope = Ω", { font: LEGEND_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
+            legendSwatch(PrecessionColors.precessionColorProperty, true),
+            new Text("slope = Ω", { font: LEGEND_FONT, fill: PrecessionColors.textColorProperty }),
           ],
         }),
       ],

@@ -35,12 +35,12 @@ import {
 import { GyroStageNode } from "../../common/view/GyroStageNode.js";
 import { SpinningWheelNode, type WheelGeometry } from "../../common/view/SpinningWheelNode.js";
 import { SpinPhaseTracker, spinBlurFor } from "../../common/view/SpinPhase.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
+import PrecessionColors from "../../PrecessionColors.js";
 import {
   NUTATION_COM_DISTANCE_M,
   NUTATION_TRACE_DRAW_SAMPLES,
   NUTATION_WHEEL_RADIUS_M,
-} from "../../RigidBodyPrecessionConstants.js";
+} from "../../PrecessionConstants.js";
 import type { NutationModel } from "../model/NutationModel.js";
 import { TIP_RADIUS_M } from "./TipPathViewNode.js";
 
@@ -100,7 +100,7 @@ export class TopSceneNode extends Node {
     // circles are not concentric in projection, so there is no honest region to fill
     // between them. The top-down panel, where they are concentric, fills it instead.
     const bandOptions = {
-      stroke: RigidBodyPrecessionColors.nutationBandColorProperty,
+      stroke: PrecessionColors.nutationBandColorProperty,
       lineWidth: 1.4,
       lineDash: [6, 5],
       opacity: 0.85,
@@ -109,13 +109,13 @@ export class TopSceneNode extends Node {
     const bandMax = new Path(null, bandOptions);
 
     const traceFar = new Path(null, {
-      stroke: RigidBodyPrecessionColors.tipTraceColorProperty,
+      stroke: PrecessionColors.tipTraceColorProperty,
       lineWidth: 1.6,
       lineJoin: "round",
       opacity: 0.4,
     });
     const traceNear = new Path(null, {
-      stroke: RigidBodyPrecessionColors.tipTraceColorProperty,
+      stroke: PrecessionColors.tipTraceColorProperty,
       lineWidth: 2.4,
       lineJoin: "round",
       opacity: 0.95,
@@ -124,14 +124,14 @@ export class TopSceneNode extends Node {
     const wheel = new SpinningWheelNode(CAMERA, WHEEL_GEOMETRY, this.palette(), { groundZ: -STAND_HEIGHT_M });
 
     const pivotDot = new Circle(5, {
-      fill: RigidBodyPrecessionColors.accentColorProperty,
-      stroke: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.accentColorProperty,
+      stroke: PrecessionColors.textColorProperty,
       lineWidth: 1,
       center: project(CAMERA, Vector3.ZERO),
     });
     const tipDot = new Circle(5, {
-      fill: RigidBodyPrecessionColors.tipTraceColorProperty,
-      stroke: RigidBodyPrecessionColors.backgroundColorProperty,
+      fill: PrecessionColors.tipTraceColorProperty,
+      stroke: PrecessionColors.backgroundColorProperty,
       lineWidth: 1,
     });
 
@@ -198,10 +198,10 @@ export class TopSceneNode extends Node {
     // The wheel's shading is baked from palette values, so redraw on theme change.
     Multilink.multilink(
       [
-        RigidBodyPrecessionColors.wheelBodyColorProperty,
-        RigidBodyPrecessionColors.wheelMarkingColorProperty,
-        RigidBodyPrecessionColors.gyroscopeColorProperty,
-        RigidBodyPrecessionColors.sceneShadowColorProperty,
+        PrecessionColors.wheelBodyColorProperty,
+        PrecessionColors.wheelMarkingColorProperty,
+        PrecessionColors.gyroscopeColorProperty,
+        PrecessionColors.sceneShadowColorProperty,
       ],
       () => {
         wheel.setPalette(this.palette());
@@ -214,10 +214,10 @@ export class TopSceneNode extends Node {
 
   private palette() {
     return {
-      body: RigidBodyPrecessionColors.wheelBodyColorProperty.value,
-      marking: RigidBodyPrecessionColors.wheelMarkingColorProperty.value,
-      axle: RigidBodyPrecessionColors.gyroscopeColorProperty.value,
-      shadow: RigidBodyPrecessionColors.sceneShadowColorProperty.value,
+      body: PrecessionColors.wheelBodyColorProperty.value,
+      marking: PrecessionColors.wheelMarkingColorProperty.value,
+      axle: PrecessionColors.gyroscopeColorProperty.value,
+      shadow: PrecessionColors.sceneShadowColorProperty.value,
     };
   }
 }

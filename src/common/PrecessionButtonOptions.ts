@@ -1,5 +1,5 @@
 /**
- * SimButtonOptions.ts
+ * PrecessionButtonOptions.ts
  *
  * Shared flat button appearance for the sim. Rectangular and round push buttons
  * default to SceneryStack's 3-D appearance; pass these options (or spread them
@@ -8,24 +8,24 @@
 
 import type { PlayPauseStepButtonGroupOptions, TimeControlNodeOptions } from "scenerystack/scenery-phet";
 import { ButtonNode, type ComboBoxOptions } from "scenerystack/sun";
-import RigidBodyPrecessionColors from "../RigidBodyPrecessionColors.js";
+import PrecessionColors from "../PrecessionColors.js";
 
 export const FLAT_BUTTON_APPEARANCE_OPTIONS = {
   buttonAppearanceStrategy: ButtonNode.FlatAppearanceStrategy,
 } as const;
 
 /** Text on flat push buttons and combo-box items (always on a light control surface). */
-export const LIGHT_SURFACE_TEXT_FILL = RigidBodyPrecessionColors.controlSurfaceTextColorProperty;
+export const LIGHT_SURFACE_TEXT_FILL = PrecessionColors.controlSurfaceTextColorProperty;
 
 /**
  * Combo-box chrome for panels. Item labels must use {@link LIGHT_SURFACE_TEXT_FILL}, not
- * {@link RigidBodyPrecessionColors.textColorProperty} — that color is for labels on the dark panel fill.
+ * {@link PrecessionColors.textColorProperty} — that color is for labels on the dark panel fill.
  */
-export const SIM_COMBO_BOX_OPTIONS = {
-  buttonFill: RigidBodyPrecessionColors.controlSurfaceColorProperty,
-  listFill: RigidBodyPrecessionColors.controlSurfaceColorProperty,
-  buttonStroke: RigidBodyPrecessionColors.panelBorderColorProperty,
-  listStroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+export const PRECESSION_COMBO_BOX_OPTIONS = {
+  buttonFill: PrecessionColors.controlSurfaceColorProperty,
+  listFill: PrecessionColors.controlSurfaceColorProperty,
+  buttonStroke: PrecessionColors.panelBorderColorProperty,
+  listStroke: PrecessionColors.panelBorderColorProperty,
 } satisfies Pick<ComboBoxOptions, "buttonFill" | "listFill" | "buttonStroke" | "listStroke">;
 
 /** Options for RectangularPushButton and NumberControl arrow buttons. */
@@ -47,6 +47,6 @@ export const FLAT_PLAY_PAUSE_STEP_BUTTON_OPTIONS = {
  */
 export const TIME_CONTROL_SPEED_RADIO_OPTIONS = {
   speedRadioButtonGroupOptions: {
-    labelOptions: { fill: RigidBodyPrecessionColors.textColorProperty },
+    labelOptions: { fill: PrecessionColors.textColorProperty },
   },
 } satisfies Pick<TimeControlNodeOptions, "speedRadioButtonGroupOptions">;

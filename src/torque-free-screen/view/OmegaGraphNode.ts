@@ -19,8 +19,8 @@ import { Orientation } from "scenerystack/phet-core";
 import { HBox, Line, Node, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { calculateTickSpacing } from "../../common/view/BambooChartUtils.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { TUMBLE_GRAPH_HEIGHT, TUMBLE_GRAPH_WINDOW_S, TUMBLE_SPIN_RANGE } from "../../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { TUMBLE_GRAPH_HEIGHT, TUMBLE_GRAPH_WINDOW_S, TUMBLE_SPIN_RANGE } from "../../PrecessionConstants.js";
 import type { TorqueFreeModel } from "../model/TorqueFreeModel.js";
 
 const Y_AXIS_GUTTER = 50;
@@ -32,13 +32,13 @@ const LEGEND_FONT = new PhetFont({ size: 10 });
 const TICK_LABEL_FONT = new PhetFont({ size: 10 });
 const TICK_EXTENT = 6;
 
-function legendEntry(color: typeof RigidBodyPrecessionColors.textColorProperty, label: string): Node {
+function legendEntry(color: typeof PrecessionColors.textColorProperty, label: string): Node {
   return new HBox({
     spacing: 4,
     align: "center",
     children: [
       new Line(0, 0, 16, 0, { stroke: color, lineWidth: 3 }),
-      new Text(label, { font: LEGEND_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
+      new Text(label, { font: LEGEND_FONT, fill: PrecessionColors.textColorProperty }),
     ],
   });
 }
@@ -67,8 +67,8 @@ export class OmegaGraphNode extends Node {
     });
 
     const chartRectangle = new ChartRectangle(this.chartTransform, {
-      fill: RigidBodyPrecessionColors.graphBackgroundColorProperty,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      fill: PrecessionColors.graphBackgroundColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
       lineWidth: 1,
       cornerRadius: 4,
     });
@@ -77,11 +77,11 @@ export class OmegaGraphNode extends Node {
     const initialYSpacing = calculateTickSpacing(2 * TUMBLE_SPIN_RANGE.max);
 
     this.verticalGrid = new GridLineSet(this.chartTransform, Orientation.VERTICAL, initialXSpacing, {
-      stroke: RigidBodyPrecessionColors.graphGridColorProperty,
+      stroke: PrecessionColors.graphGridColorProperty,
       lineWidth: 0.5,
     });
     this.horizontalGrid = new GridLineSet(this.chartTransform, Orientation.HORIZONTAL, initialYSpacing, {
-      stroke: RigidBodyPrecessionColors.graphGridColorProperty,
+      stroke: PrecessionColors.graphGridColorProperty,
       lineWidth: 0.5,
     });
 
@@ -89,9 +89,9 @@ export class OmegaGraphNode extends Node {
     // normal to the blue face, and so on, so the graph and the block cross-reference
     // each other without a key.
     const colors = [
-      RigidBodyPrecessionColors.wheelBodyColorProperty,
-      RigidBodyPrecessionColors.torqueColorProperty,
-      RigidBodyPrecessionColors.weightColorProperty,
+      PrecessionColors.wheelBodyColorProperty,
+      PrecessionColors.torqueColorProperty,
+      PrecessionColors.weightColorProperty,
     ];
     this.plots = colors.map((color) => new LinePlot(this.chartTransform, [], { stroke: color, lineWidth: 2 }));
 
@@ -103,12 +103,12 @@ export class OmegaGraphNode extends Node {
     this.xTickMarks = new TickMarkSet(this.chartTransform, Orientation.HORIZONTAL, initialXSpacing, {
       edge: "min",
       extent: TICK_EXTENT,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
     });
     this.yTickMarks = new TickMarkSet(this.chartTransform, Orientation.VERTICAL, initialYSpacing, {
       edge: "min",
       extent: TICK_EXTENT,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
     });
     this.xTickLabels = new TickLabelSet(this.chartTransform, Orientation.HORIZONTAL, initialXSpacing, {
       edge: "min",
@@ -116,7 +116,7 @@ export class OmegaGraphNode extends Node {
       createLabel: (value: number) =>
         new Text(toFixed(value, 0), {
           font: TICK_LABEL_FONT,
-          fill: RigidBodyPrecessionColors.textColorProperty,
+          fill: PrecessionColors.textColorProperty,
           maxWidth: 36,
         }),
     });
@@ -126,7 +126,7 @@ export class OmegaGraphNode extends Node {
       createLabel: (value: number) =>
         new Text(toFixed(value, 0), {
           font: TICK_LABEL_FONT,
-          fill: RigidBodyPrecessionColors.textColorProperty,
+          fill: PrecessionColors.textColorProperty,
           maxWidth: 36,
         }),
     });
@@ -141,7 +141,7 @@ export class OmegaGraphNode extends Node {
     this.addChild(
       new Text("ω (rad/s)", {
         font: AXIS_FONT,
-        fill: RigidBodyPrecessionColors.textColorProperty,
+        fill: PrecessionColors.textColorProperty,
         rotation: -Math.PI / 2,
         centerY: TUMBLE_GRAPH_HEIGHT / 2,
         right: Y_AXIS_GUTTER - 26,
@@ -150,7 +150,7 @@ export class OmegaGraphNode extends Node {
     this.addChild(
       new Text("t (s)", {
         font: AXIS_FONT,
-        fill: RigidBodyPrecessionColors.textColorProperty,
+        fill: PrecessionColors.textColorProperty,
         centerX: Y_AXIS_GUTTER + width / 2,
         top: TUMBLE_GRAPH_HEIGHT + 18,
       }),
@@ -161,9 +161,9 @@ export class OmegaGraphNode extends Node {
         spacing: 12,
         align: "center",
         children: [
-          legendEntry(RigidBodyPrecessionColors.wheelBodyColorProperty, "ω₁ (max I)"),
-          legendEntry(RigidBodyPrecessionColors.torqueColorProperty, "ω₂ (intermediate)"),
-          legendEntry(RigidBodyPrecessionColors.weightColorProperty, "ω₃ (min I)"),
+          legendEntry(PrecessionColors.wheelBodyColorProperty, "ω₁ (max I)"),
+          legendEntry(PrecessionColors.torqueColorProperty, "ω₂ (intermediate)"),
+          legendEntry(PrecessionColors.weightColorProperty, "ω₃ (min I)"),
         ],
         // Its own row under the axis title: three entries do not fit beside it.
         centerX: Y_AXIS_GUTTER + width / 2,

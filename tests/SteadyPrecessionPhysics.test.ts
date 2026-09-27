@@ -24,7 +24,7 @@ import {
   GRAVITY_MPS2,
   SPIN_RATE_RANGE,
   SPIN_UP_TIME_CONSTANT_S,
-} from "../src/RigidBodyPrecessionConstants.js";
+} from "../src/PrecessionConstants.js";
 
 function baseParameters(overrides: Partial<SteadyPrecessionParameters> = {}): SteadyPrecessionParameters {
   return {

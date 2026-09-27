@@ -23,8 +23,8 @@ import { HBox, Node, Path, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { ArrowNode, PhetFont } from "scenerystack/scenery-phet";
 import { type Camera3D, createCamera, project } from "../../common/view/Camera3D.js";
 import { type BoxGeometry, TumblingBoxNode } from "../../common/view/TumblingBoxNode.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { TUMBLE_BOX_SIZE_M, TUMBLE_SPIN_RANGE } from "../../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { TUMBLE_BOX_SIZE_M, TUMBLE_SPIN_RANGE } from "../../PrecessionConstants.js";
 import type { TorqueFreeModel } from "../model/TorqueFreeModel.js";
 
 export const TUMBLE_SCENE_WIDTH = 600;
@@ -55,10 +55,10 @@ const ARROW = { headHeight: 11, headWidth: 10, tailWidth: 3 } as const;
  */
 function createInertiaCard(model: TorqueFreeModel): Node {
   const rows: Node[] = [];
-  const entries: Array<[string, number, typeof RigidBodyPrecessionColors.textColorProperty]> = [
-    ["I₁", model.inertia.i1, RigidBodyPrecessionColors.wheelBodyColorProperty],
-    ["I₂", model.inertia.i2, RigidBodyPrecessionColors.torqueColorProperty],
-    ["I₃", model.inertia.i3, RigidBodyPrecessionColors.weightColorProperty],
+  const entries: Array<[string, number, typeof PrecessionColors.textColorProperty]> = [
+    ["I₁", model.inertia.i1, PrecessionColors.wheelBodyColorProperty],
+    ["I₂", model.inertia.i2, PrecessionColors.torqueColorProperty],
+    ["I₃", model.inertia.i3, PrecessionColors.weightColorProperty],
   ];
 
   for (const [label, value, color] of entries) {
@@ -68,8 +68,8 @@ function createInertiaCard(model: TorqueFreeModel): Node {
         align: "center",
         children: [
           new Rectangle(0, 0, 10, 10, { fill: color, cornerRadius: 2 }),
-          new Text(label, { font: CARD_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
-          new Text(toFixed(value, 4), { font: CARD_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
+          new Text(label, { font: CARD_FONT, fill: PrecessionColors.textColorProperty }),
+          new Text(toFixed(value, 4), { font: CARD_FONT, fill: PrecessionColors.textColorProperty }),
         ],
       }),
     );
@@ -77,13 +77,13 @@ function createInertiaCard(model: TorqueFreeModel): Node {
 
   const heading = new Text("I₁ > I₂ > I₃  (kg·m²)", {
     font: CARD_FONT,
-    fill: RigidBodyPrecessionColors.accentColorProperty,
+    fill: PrecessionColors.accentColorProperty,
   });
 
   const content = new VBox({ spacing: 3, align: "left", children: [heading, ...rows] });
   const card = new Rectangle(0, 0, content.width + 16, content.height + 14, {
-    fill: RigidBodyPrecessionColors.sceneInsetCardColorProperty,
-    stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+    fill: PrecessionColors.sceneInsetCardColorProperty,
+    stroke: PrecessionColors.panelBorderColorProperty,
     lineWidth: 1,
     cornerRadius: 6,
   });
@@ -107,14 +107,14 @@ export class TumbleSceneNode extends Node {
 
     /** The plane ⊥ L through the center: a horizon to judge the block's tilt against. */
     const referencePlane = new Path(null, {
-      stroke: RigidBodyPrecessionColors.angularMomentumColorProperty,
+      stroke: PrecessionColors.angularMomentumColorProperty,
       lineWidth: 1,
       lineDash: [4, 5],
       opacity: 0.3,
     });
 
     const omegaTrail = new Path(null, {
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
       lineWidth: 2,
       lineJoin: "round",
       opacity: 0.75,
@@ -124,22 +124,22 @@ export class TumbleSceneNode extends Node {
 
     const momentumArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.angularMomentumColorProperty,
-      stroke: RigidBodyPrecessionColors.angularMomentumColorProperty,
+      fill: PrecessionColors.angularMomentumColorProperty,
+      stroke: PrecessionColors.angularMomentumColorProperty,
     });
     const omegaArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.precessionColorProperty,
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      fill: PrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
     });
 
     const momentumLabel = new Text("L", {
       font: LABEL_FONT,
-      fill: RigidBodyPrecessionColors.angularMomentumColorProperty,
+      fill: PrecessionColors.angularMomentumColorProperty,
     });
     const omegaLabel = new Text("ω", {
       font: LABEL_FONT,
-      fill: RigidBodyPrecessionColors.precessionColorProperty,
+      fill: PrecessionColors.precessionColorProperty,
     });
 
     this.children = [
@@ -229,11 +229,11 @@ export class TumbleSceneNode extends Node {
 
     Multilink.multilink(
       [
-        RigidBodyPrecessionColors.wheelBodyColorProperty,
-        RigidBodyPrecessionColors.torqueColorProperty,
-        RigidBodyPrecessionColors.weightColorProperty,
-        RigidBodyPrecessionColors.gyroscopeColorProperty,
-        RigidBodyPrecessionColors.wheelMarkingColorProperty,
+        PrecessionColors.wheelBodyColorProperty,
+        PrecessionColors.torqueColorProperty,
+        PrecessionColors.weightColorProperty,
+        PrecessionColors.gyroscopeColorProperty,
+        PrecessionColors.wheelMarkingColorProperty,
       ],
       () => {
         box.setPalette(this.palette());
@@ -246,11 +246,11 @@ export class TumbleSceneNode extends Node {
 
   private palette() {
     return {
-      faceX: RigidBodyPrecessionColors.wheelBodyColorProperty.value,
-      faceY: RigidBodyPrecessionColors.torqueColorProperty.value,
-      faceZ: RigidBodyPrecessionColors.weightColorProperty.value,
-      edge: RigidBodyPrecessionColors.gyroscopeColorProperty.value,
-      mark: RigidBodyPrecessionColors.wheelMarkingColorProperty.value,
+      faceX: PrecessionColors.wheelBodyColorProperty.value,
+      faceY: PrecessionColors.torqueColorProperty.value,
+      faceZ: PrecessionColors.weightColorProperty.value,
+      edge: PrecessionColors.gyroscopeColorProperty.value,
+      mark: PrecessionColors.wheelMarkingColorProperty.value,
     };
   }
 }

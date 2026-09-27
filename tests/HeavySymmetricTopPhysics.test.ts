@@ -35,7 +35,7 @@ import {
   NUTATION_TIP_DRAG_N_M_S,
   NUTATION_TRANSVERSE_INERTIA_KG_M2,
   NUTATION_WHEEL_MASS_KG,
-} from "../src/RigidBodyPrecessionConstants.js";
+} from "../src/PrecessionConstants.js";
 
 function baseParameters(overrides: Partial<HeavyTopParameters> = {}): HeavyTopParameters {
   return {

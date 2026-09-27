@@ -10,18 +10,18 @@ import { Dimension2, Range, toFixed } from "scenerystack/dot";
 import { HBox, Line, type Node, RichText, Text, VBox } from "scenerystack/scenery";
 import { NumberControl, PhetFont } from "scenerystack/scenery-phet";
 import { Checkbox } from "scenerystack/sun";
-import { FLAT_RECTANGULAR_BUTTON_OPTIONS } from "../../common/SimButtonOptions.js";
-import { SimPanel } from "../../common/SimPanel.js";
+import { FLAT_RECTANGULAR_BUTTON_OPTIONS } from "../../common/PrecessionButtonOptions.js";
+import { PrecessionPanel } from "../../common/PrecessionPanel.js";
 import { createUnitProxy } from "../../common/view/UnitProxyProperty.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
+import PrecessionColors from "../../PrecessionColors.js";
 import {
   ARM_MASS_RANGE,
   PIVOT_DISTANCE_RANGE,
   SPIN_RATE_RANGE,
   STEADY_PRECESSION_PANEL_WIDTH,
   TILT_ANGLE_RANGE,
-} from "../../RigidBodyPrecessionConstants.js";
+} from "../../PrecessionConstants.js";
 import type { SteadyPrecessionModel } from "../model/SteadyPrecessionModel.js";
 
 const TITLE_FONT = new PhetFont({ size: 13, weight: "bold" });
@@ -38,7 +38,7 @@ function createNumberControl(
   decimalPlaces: number,
   accessibleName: TReadOnlyProperty<string>,
 ): NumberControl {
-  const titleNode = new Text(title, { font: TITLE_FONT, fill: RigidBodyPrecessionColors.textColorProperty });
+  const titleNode = new Text(title, { font: TITLE_FONT, fill: PrecessionColors.textColorProperty });
   return new NumberControl(titleNode, property, range, {
     delta,
     layoutFunction: NumberControl.createLayoutFunction1({ align: "center", ySpacing: 2 }),
@@ -58,18 +58,18 @@ function createNumberControl(
 function readoutRow(
   label: string,
   valueProperty: TReadOnlyProperty<string>,
-  colorProperty: typeof RigidBodyPrecessionColors.textColorProperty,
+  colorProperty: typeof PrecessionColors.textColorProperty,
 ): Node {
   return new HBox({
     spacing: 8,
     children: [
-      new Text(label, { font: READOUT_LABEL_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
+      new Text(label, { font: READOUT_LABEL_FONT, fill: PrecessionColors.textColorProperty }),
       new Text(valueProperty, { font: READOUT_FONT, fill: colorProperty }),
     ],
   });
 }
 
-export class SteadyPrecessionControlPanel extends SimPanel {
+export class SteadyPrecessionControlPanel extends PrecessionPanel {
   public constructor(model: SteadyPrecessionModel) {
     const strings = StringManager.getInstance().getSteadyPrecessionStrings();
     const a11y = StringManager.getInstance().getSteadyPrecessionA11yStrings();
@@ -125,12 +125,12 @@ export class SteadyPrecessionControlPanel extends SimPanel {
       model.pivotAtCenterOfMassProperty,
       new Text(strings.pivotAtComStringProperty, {
         font: READOUT_FONT,
-        fill: RigidBodyPrecessionColors.textColorProperty,
+        fill: PrecessionColors.textColorProperty,
         maxWidth: STEADY_PRECESSION_PANEL_WIDTH - 60,
       }),
       {
-        checkboxColor: RigidBodyPrecessionColors.textColorProperty,
-        checkboxColorBackground: RigidBodyPrecessionColors.panelBackgroundColorProperty,
+        checkboxColor: PrecessionColors.textColorProperty,
+        checkboxColorBackground: PrecessionColors.panelBackgroundColorProperty,
         accessibleName: a11y.controls.pivotAtComStringProperty,
         boxWidth: 18,
       },
@@ -153,20 +153,20 @@ export class SteadyPrecessionControlPanel extends SimPanel {
     });
 
     const separator = new Line(0, 0, STEADY_PRECESSION_PANEL_WIDTH - 40, 0, {
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
       lineWidth: 1,
     });
 
     const readoutHeader = new Text(strings.readoutsTitleStringProperty, {
       font: SECTION_FONT,
-      fill: RigidBodyPrecessionColors.accentColorProperty,
+      fill: PrecessionColors.accentColorProperty,
     });
 
     // RichText, not Text: a long sentence given only a maxWidth is scaled down to
     // fit on one line, which at this size is unreadable. lineWrap wraps it instead.
     const formulaHint = new RichText(strings.formulaHintStringProperty, {
       font: new PhetFont({ size: 11 }),
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       lineWrap: STEADY_PRECESSION_PANEL_WIDTH - 40,
       opacity: 0.85,
     });
@@ -180,7 +180,7 @@ export class SteadyPrecessionControlPanel extends SimPanel {
 
     const validityWarning = new RichText(strings.validityWarningStringProperty, {
       font: new PhetFont({ size: 11 }),
-      fill: RigidBodyPrecessionColors.warningColorProperty,
+      fill: PrecessionColors.warningColorProperty,
       lineWrap: STEADY_PRECESSION_PANEL_WIDTH - 40,
     });
     model.idealizationValidProperty.link((valid) => {
@@ -198,10 +198,10 @@ export class SteadyPrecessionControlPanel extends SimPanel {
         pivotAtComCheckbox,
         separator,
         readoutHeader,
-        readoutRow("τ", torqueValueProperty, RigidBodyPrecessionColors.torqueColorProperty),
-        readoutRow("Ω_pred", predictedValueProperty, RigidBodyPrecessionColors.precessionColorProperty),
-        readoutRow("Ω_meas", measuredValueProperty, RigidBodyPrecessionColors.graphTraceColorProperty),
-        readoutRow("Ω : ω", ratioValueProperty, RigidBodyPrecessionColors.textColorProperty),
+        readoutRow("τ", torqueValueProperty, PrecessionColors.torqueColorProperty),
+        readoutRow("Ω_pred", predictedValueProperty, PrecessionColors.precessionColorProperty),
+        readoutRow("Ω_meas", measuredValueProperty, PrecessionColors.graphTraceColorProperty),
+        readoutRow("Ω : ω", ratioValueProperty, PrecessionColors.textColorProperty),
         formulaHint,
         validityWarning,
       ],

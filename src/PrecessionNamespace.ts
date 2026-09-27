@@ -1,5 +1,5 @@
 /**
- * RigidBodyPrecessionNamespace.ts
+ * PrecessionNamespace.ts
  *
  * The SceneryStack Namespace for this simulation. It is used as the first
  * argument to ProfileColorProperty (so color names are scoped to this sim)
@@ -11,6 +11,6 @@
  */
 import { Namespace } from "scenerystack/phet-core";
 
-const RigidBodyPrecessionNamespace = new Namespace("precession");
+const PrecessionNamespace = new Namespace("precession");
 
-export default RigidBodyPrecessionNamespace;
+export default PrecessionNamespace;

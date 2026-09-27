@@ -16,7 +16,7 @@ Screens 2 (nutation) and 3 (torque-free tumbling) are separate phenomena on sepa
 
 ## Quantities and units
 
-All model quantities are SI. Ranges are enforced in `src/RigidBodyPrecessionConstants.ts`.
+All model quantities are SI. Ranges are enforced in `src/PrecessionConstants.ts`.
 
 | Quantity | Symbol | Units | Range | Default |
 |---|---|---|---|---|

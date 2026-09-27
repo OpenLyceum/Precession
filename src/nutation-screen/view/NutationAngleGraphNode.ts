@@ -22,8 +22,8 @@ import { Orientation } from "scenerystack/phet-core";
 import { HBox, Node, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { calculateTickSpacing } from "../../common/view/BambooChartUtils.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { NUTATION_GRAPH_HEIGHT, NUTATION_GRAPH_WINDOW_S } from "../../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { NUTATION_GRAPH_HEIGHT, NUTATION_GRAPH_WINDOW_S } from "../../PrecessionConstants.js";
 import type { NutationModel } from "../model/NutationModel.js";
 
 const CHART_HEIGHT = NUTATION_GRAPH_HEIGHT;
@@ -38,7 +38,7 @@ const TICK_EXTENT = 6;
 
 const RADIANS_TO_DEGREES = 180 / Math.PI;
 
-function legendSwatch(color: typeof RigidBodyPrecessionColors.tipTraceColorProperty, dashed = false): Node {
+function legendSwatch(color: typeof PrecessionColors.tipTraceColorProperty, dashed = false): Node {
   return new Rectangle(0, 0, 18, 3, {
     fill: color,
     stroke: color,
@@ -75,8 +75,8 @@ export class NutationAngleGraphNode extends Node {
     });
 
     const chartRectangle = new ChartRectangle(this.chartTransform, {
-      fill: RigidBodyPrecessionColors.graphBackgroundColorProperty,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      fill: PrecessionColors.graphBackgroundColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
       lineWidth: 1,
       cornerRadius: 4,
     });
@@ -85,30 +85,30 @@ export class NutationAngleGraphNode extends Node {
     const initialYSpacing = 15;
 
     this.verticalGrid = new GridLineSet(this.chartTransform, Orientation.VERTICAL, initialXSpacing, {
-      stroke: RigidBodyPrecessionColors.graphGridColorProperty,
+      stroke: PrecessionColors.graphGridColorProperty,
       lineWidth: 0.5,
     });
     this.horizontalGrid = new GridLineSet(this.chartTransform, Orientation.HORIZONTAL, initialYSpacing, {
-      stroke: RigidBodyPrecessionColors.graphGridColorProperty,
+      stroke: PrecessionColors.graphGridColorProperty,
       lineWidth: 0.5,
     });
 
     // Horizontal reference lines (slope 0) at the two turning points.
     this.thetaMinPlot = new LinearEquationPlot(this.chartTransform, 0, 0, {
-      stroke: RigidBodyPrecessionColors.nutationBandColorProperty,
+      stroke: PrecessionColors.nutationBandColorProperty,
       lineWidth: 1.5,
       lineDash: [6, 4],
       opacity: 0.85,
     });
     this.thetaMaxPlot = new LinearEquationPlot(this.chartTransform, 0, 0, {
-      stroke: RigidBodyPrecessionColors.nutationBandColorProperty,
+      stroke: PrecessionColors.nutationBandColorProperty,
       lineWidth: 1.5,
       lineDash: [6, 4],
       opacity: 0.85,
     });
 
     this.dataPlot = new LinePlot(this.chartTransform, [], {
-      stroke: RigidBodyPrecessionColors.tipTraceColorProperty,
+      stroke: PrecessionColors.tipTraceColorProperty,
       lineWidth: 2.5,
     });
 
@@ -127,12 +127,12 @@ export class NutationAngleGraphNode extends Node {
     this.xTickMarks = new TickMarkSet(this.chartTransform, Orientation.HORIZONTAL, initialXSpacing, {
       edge: "min",
       extent: TICK_EXTENT,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
     });
     this.yTickMarks = new TickMarkSet(this.chartTransform, Orientation.VERTICAL, initialYSpacing, {
       edge: "min",
       extent: TICK_EXTENT,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
     });
     this.xTickLabels = new TickLabelSet(this.chartTransform, Orientation.HORIZONTAL, initialXSpacing, {
       edge: "min",
@@ -140,7 +140,7 @@ export class NutationAngleGraphNode extends Node {
       createLabel: (value: number) =>
         new Text(toFixed(value, 1), {
           font: TICK_LABEL_FONT,
-          fill: RigidBodyPrecessionColors.textColorProperty,
+          fill: PrecessionColors.textColorProperty,
           maxWidth: 36,
         }),
     });
@@ -150,7 +150,7 @@ export class NutationAngleGraphNode extends Node {
       createLabel: (value: number) =>
         new Text(toFixed(value, 0), {
           font: TICK_LABEL_FONT,
-          fill: RigidBodyPrecessionColors.textColorProperty,
+          fill: PrecessionColors.textColorProperty,
           maxWidth: 36,
         }),
     });
@@ -164,7 +164,7 @@ export class NutationAngleGraphNode extends Node {
     this.addChild(
       new Text("θ (°)", {
         font: AXIS_FONT,
-        fill: RigidBodyPrecessionColors.textColorProperty,
+        fill: PrecessionColors.textColorProperty,
         rotation: -Math.PI / 2,
         centerY: CHART_HEIGHT / 2,
         // Clear of the y tick labels, which sit just left of the chart edge.
@@ -174,7 +174,7 @@ export class NutationAngleGraphNode extends Node {
     this.addChild(
       new Text("t (s)", {
         font: AXIS_FONT,
-        fill: RigidBodyPrecessionColors.textColorProperty,
+        fill: PrecessionColors.textColorProperty,
         centerX: Y_AXIS_GUTTER + width / 2,
         top: CHART_HEIGHT + 18,
       }),
@@ -189,18 +189,18 @@ export class NutationAngleGraphNode extends Node {
             spacing: 4,
             align: "center",
             children: [
-              legendSwatch(RigidBodyPrecessionColors.tipTraceColorProperty),
-              new Text("θ(t)", { font: LEGEND_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
+              legendSwatch(PrecessionColors.tipTraceColorProperty),
+              new Text("θ(t)", { font: LEGEND_FONT, fill: PrecessionColors.textColorProperty }),
             ],
           }),
           new HBox({
             spacing: 4,
             align: "center",
             children: [
-              legendSwatch(RigidBodyPrecessionColors.nutationBandColorProperty, true),
+              legendSwatch(PrecessionColors.nutationBandColorProperty, true),
               new Text("turning points", {
                 font: LEGEND_FONT,
-                fill: RigidBodyPrecessionColors.textColorProperty,
+                fill: PrecessionColors.textColorProperty,
               }),
             ],
           }),

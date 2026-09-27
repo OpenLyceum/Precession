@@ -28,7 +28,7 @@ import {
   symmetryAxis,
 } from "../../common/view/Camera3D.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
+import PrecessionColors from "../../PrecessionColors.js";
 import type { SteadyPrecessionModel } from "../model/SteadyPrecessionModel.js";
 
 export const VECTOR_DIAGRAM_WIDTH = 182;
@@ -52,7 +52,7 @@ const LEGEND_FONT = new PhetFont({ size: 10 });
 const INSIGHT_FONT = new PhetFont({ size: 11 });
 const ARROW = { headHeight: 9, headWidth: 9, tailWidth: 2.5 } as const;
 
-function legendRow(color: typeof RigidBodyPrecessionColors.weightColorProperty, label: string): Node {
+function legendRow(color: typeof PrecessionColors.weightColorProperty, label: string): Node {
   return new Node({
     children: [
       new Line(0, 0, 13, 0, { stroke: color, lineWidth: 3, centerY: 0 }),
@@ -78,7 +78,7 @@ export class VectorDiagramNode extends Node {
 
     const insight = new RichText(strings.vectorInsightStringProperty, {
       font: INSIGHT_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       left: 4,
       top: 2,
       maxWidth: VECTOR_DIAGRAM_WIDTH - 8,
@@ -86,7 +86,7 @@ export class VectorDiagramNode extends Node {
     });
 
     const verticalAxis = new Line(origin.x, origin.y - 96, origin.x, origin.y + 44, {
-      stroke: RigidBodyPrecessionColors.textColorProperty,
+      stroke: PrecessionColors.textColorProperty,
       lineWidth: 1,
       lineDash: [3, 4],
       opacity: 0.4,
@@ -94,7 +94,7 @@ export class VectorDiagramNode extends Node {
 
     /** The horizontal circle the tip of L is confined to. */
     const tipOrbit = new Path(null, {
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
       lineWidth: 1,
       lineDash: [3, 3],
       opacity: 0.55,
@@ -103,56 +103,56 @@ export class VectorDiagramNode extends Node {
     const ghostArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
       tailWidth: 1.5,
-      fill: RigidBodyPrecessionColors.angularMomentumColorProperty,
-      stroke: RigidBodyPrecessionColors.angularMomentumColorProperty,
+      fill: PrecessionColors.angularMomentumColorProperty,
+      stroke: PrecessionColors.angularMomentumColorProperty,
       opacity: 0.4,
     });
     const momentumArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.angularMomentumColorProperty,
-      stroke: RigidBodyPrecessionColors.angularMomentumColorProperty,
+      fill: PrecessionColors.angularMomentumColorProperty,
+      stroke: PrecessionColors.angularMomentumColorProperty,
     });
     const deltaArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.torqueColorProperty,
-      stroke: RigidBodyPrecessionColors.torqueColorProperty,
+      fill: PrecessionColors.torqueColorProperty,
+      stroke: PrecessionColors.torqueColorProperty,
     });
     const weightArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.weightColorProperty,
-      stroke: RigidBodyPrecessionColors.weightColorProperty,
+      fill: PrecessionColors.weightColorProperty,
+      stroke: PrecessionColors.weightColorProperty,
     });
     const precessionArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.precessionColorProperty,
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      fill: PrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
     });
 
     const rightAngle = new Path(null, {
-      stroke: RigidBodyPrecessionColors.textColorProperty,
+      stroke: PrecessionColors.textColorProperty,
       lineWidth: 1,
       opacity: 0.6,
     });
 
     const momentumLabel = new Text("L", {
       font: LABEL_FONT,
-      fill: RigidBodyPrecessionColors.angularMomentumColorProperty,
+      fill: PrecessionColors.angularMomentumColorProperty,
     });
     const deltaLabel = new Text("τΔt", {
       font: SMALL_LABEL_FONT,
-      fill: RigidBodyPrecessionColors.torqueColorProperty,
+      fill: PrecessionColors.torqueColorProperty,
     });
-    const weightLabel = new Text("mg", { font: LABEL_FONT, fill: RigidBodyPrecessionColors.weightColorProperty });
+    const weightLabel = new Text("mg", { font: LABEL_FONT, fill: PrecessionColors.weightColorProperty });
     const precessionLabel = new Text("Ω", {
       font: LABEL_FONT,
-      fill: RigidBodyPrecessionColors.precessionColorProperty,
+      fill: PrecessionColors.precessionColorProperty,
     });
 
-    const pivotDot = new Circle(4, { fill: RigidBodyPrecessionColors.accentColorProperty, center: origin });
+    const pivotDot = new Circle(4, { fill: PrecessionColors.accentColorProperty, center: origin });
 
     const noTorqueMessage = new RichText(strings.noTorqueMessageStringProperty, {
       font: INSIGHT_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       centerX: VECTOR_DIAGRAM_WIDTH / 2,
       centerY: origin.y,
       maxWidth: VECTOR_DIAGRAM_WIDTH - 20,
@@ -164,10 +164,10 @@ export class VectorDiagramNode extends Node {
       spacing: 3,
       align: "left",
       children: [
-        legendRow(RigidBodyPrecessionColors.angularMomentumColorProperty, "L = I₃ω"),
-        legendRow(RigidBodyPrecessionColors.torqueColorProperty, "τΔt ⊥ L"),
-        legendRow(RigidBodyPrecessionColors.weightColorProperty, "mg"),
-        legendRow(RigidBodyPrecessionColors.precessionColorProperty, "Ω"),
+        legendRow(PrecessionColors.angularMomentumColorProperty, "L = I₃ω"),
+        legendRow(PrecessionColors.torqueColorProperty, "τΔt ⊥ L"),
+        legendRow(PrecessionColors.weightColorProperty, "mg"),
+        legendRow(PrecessionColors.precessionColorProperty, "Ω"),
       ],
       left: 6,
       bottom: VECTOR_DIAGRAM_HEIGHT - 4,

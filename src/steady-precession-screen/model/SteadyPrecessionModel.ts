@@ -30,7 +30,7 @@ import {
   GRAVITY_MPS2,
   PRECESSION_GRAPH_CAPACITY,
   SPIN_UP_TIME_CONSTANT_S,
-} from "../../RigidBodyPrecessionConstants.js";
+} from "../../PrecessionConstants.js";
 
 /** Slow motion factor, matching the other two screens. */
 const SLOW_MOTION_FACTOR = 0.25;

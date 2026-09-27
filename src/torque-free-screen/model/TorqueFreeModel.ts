@@ -47,7 +47,7 @@ import {
   TUMBLE_HISTORY_CAPACITY,
   TUMBLE_NUDGE_FRACTION,
   TUMBLE_SAMPLE_INTERVAL_S,
-} from "../../RigidBodyPrecessionConstants.js";
+} from "../../PrecessionConstants.js";
 
 /**
  * Which principal axis the block is set spinning about, named by its moment of

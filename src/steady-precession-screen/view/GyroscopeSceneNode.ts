@@ -34,7 +34,7 @@ import { GyroStageNode } from "../../common/view/GyroStageNode.js";
 import { SpinningWheelNode, type WheelGeometry } from "../../common/view/SpinningWheelNode.js";
 import { SpinPhaseTracker, spinBlurFor } from "../../common/view/SpinPhase.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
+import PrecessionColors from "../../PrecessionColors.js";
 import {
   ARM_MASS_RANGE,
   DISK_HALF_THICKNESS_M,
@@ -42,7 +42,7 @@ import {
   DISK_RADIUS_M,
   PIVOT_DISTANCE_RANGE,
   SPIN_RATE_RANGE,
-} from "../../RigidBodyPrecessionConstants.js";
+} from "../../PrecessionConstants.js";
 import type { SteadyPrecessionModel } from "../model/SteadyPrecessionModel.js";
 
 export const GYROSCOPE_SCENE_WIDTH = 400;
@@ -112,31 +112,31 @@ export class GyroscopeSceneNode extends Node {
 
     // The tip's orbit is split at its silhouette so the apparatus sits inside it.
     const orbitFar = new Path(null, {
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
       lineWidth: 1.5,
       lineDash: [5, 4],
       opacity: 0.45,
     });
     const orbitNear = new Path(null, {
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
       lineWidth: 1.5,
       lineDash: [5, 4],
       opacity: 0.8,
     });
     /** Short bright trail behind the tip — the clearest read on which way it is going. */
     const orbitTrail = new Path(null, {
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
       lineWidth: 3,
       lineCap: "round",
       opacity: 0.85,
     });
 
     const tiltArc = new Path(null, {
-      stroke: RigidBodyPrecessionColors.textColorProperty,
+      stroke: PrecessionColors.textColorProperty,
       lineWidth: 1.2,
       opacity: 0.7,
     });
-    const tiltLabel = new Text("θ", { font: LABEL_FONT, fill: RigidBodyPrecessionColors.textColorProperty });
+    const tiltLabel = new Text("θ", { font: LABEL_FONT, fill: PrecessionColors.textColorProperty });
 
     const wheel = new SpinningWheelNode(CAMERA, WHEEL_GEOMETRY, this.palette(), { groundZ: -STAND_HEIGHT_M });
 
@@ -148,15 +148,15 @@ export class GyroscopeSceneNode extends Node {
     const collarFrontSlot = new Node();
 
     const pivotDot = new Circle(5, {
-      fill: RigidBodyPrecessionColors.accentColorProperty,
-      stroke: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.accentColorProperty,
+      stroke: PrecessionColors.textColorProperty,
       lineWidth: 1,
       center: project(CAMERA, Vector3.ZERO),
     });
 
     /** Straight-down line from the wheel's center to the floor — a height reference. */
     const plumb = new Path(null, {
-      stroke: RigidBodyPrecessionColors.textColorProperty,
+      stroke: PrecessionColors.textColorProperty,
       lineWidth: 1,
       lineDash: [2, 4],
       opacity: 0.35,
@@ -164,39 +164,39 @@ export class GyroscopeSceneNode extends Node {
 
     const momentumArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.angularMomentumColorProperty,
-      stroke: RigidBodyPrecessionColors.angularMomentumColorProperty,
+      fill: PrecessionColors.angularMomentumColorProperty,
+      stroke: PrecessionColors.angularMomentumColorProperty,
     });
     const weightArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.weightColorProperty,
-      stroke: RigidBodyPrecessionColors.weightColorProperty,
+      fill: PrecessionColors.weightColorProperty,
+      stroke: PrecessionColors.weightColorProperty,
     });
     const torqueArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.torqueColorProperty,
-      stroke: RigidBodyPrecessionColors.torqueColorProperty,
+      fill: PrecessionColors.torqueColorProperty,
+      stroke: PrecessionColors.torqueColorProperty,
     });
     const precessionArrow = new ArrowNode(0, 0, 0, 0, {
       ...ARROW,
-      fill: RigidBodyPrecessionColors.precessionColorProperty,
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      fill: PrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
     });
 
     const momentumLabel = new Text("L", {
       font: LABEL_FONT,
-      fill: RigidBodyPrecessionColors.angularMomentumColorProperty,
+      fill: PrecessionColors.angularMomentumColorProperty,
     });
-    const weightLabel = new Text("mg", { font: LABEL_FONT, fill: RigidBodyPrecessionColors.weightColorProperty });
-    const torqueLabel = new Text("τ", { font: LABEL_FONT, fill: RigidBodyPrecessionColors.torqueColorProperty });
+    const weightLabel = new Text("mg", { font: LABEL_FONT, fill: PrecessionColors.weightColorProperty });
+    const torqueLabel = new Text("τ", { font: LABEL_FONT, fill: PrecessionColors.torqueColorProperty });
     const precessionLabel = new Text("Ω", {
       font: LABEL_FONT,
-      fill: RigidBodyPrecessionColors.precessionColorProperty,
+      fill: PrecessionColors.precessionColorProperty,
     });
 
     const tipDot = new Circle(4.5, {
-      fill: RigidBodyPrecessionColors.precessionColorProperty,
-      stroke: RigidBodyPrecessionColors.backgroundColorProperty,
+      fill: PrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.backgroundColorProperty,
       lineWidth: 1,
     });
 
@@ -204,7 +204,7 @@ export class GyroscopeSceneNode extends Node {
     // animation understates ω. Say so rather than let the picture mislead.
     const slowedNote = new Text(StringManager.getInstance().getSteadyPrecessionStrings().spinSlowedStringProperty, {
       font: SMALL_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       opacity: 0.65,
       left: 4,
       bottom: GYROSCOPE_SCENE_HEIGHT - 2,
@@ -278,7 +278,7 @@ export class GyroscopeSceneNode extends Node {
           COLLAR_HALF_LENGTH_M,
           32,
         );
-        const weightColor = RigidBodyPrecessionColors.weightColorProperty.value;
+        const weightColor = PrecessionColors.weightColorProperty.value;
         collarBand.shape = collarShapes.band;
         collarBand.fill = shadeColor(weightColor, 0.8);
         collarBand.stroke = shadeColor(weightColor, 0.5);
@@ -402,10 +402,10 @@ export class GyroscopeSceneNode extends Node {
     // The wheel's shading is baked from palette values, so redraw on theme change.
     Multilink.multilink(
       [
-        RigidBodyPrecessionColors.wheelBodyColorProperty,
-        RigidBodyPrecessionColors.wheelMarkingColorProperty,
-        RigidBodyPrecessionColors.gyroscopeColorProperty,
-        RigidBodyPrecessionColors.sceneShadowColorProperty,
+        PrecessionColors.wheelBodyColorProperty,
+        PrecessionColors.wheelMarkingColorProperty,
+        PrecessionColors.gyroscopeColorProperty,
+        PrecessionColors.sceneShadowColorProperty,
       ],
       () => {
         wheel.setPalette(this.palette());
@@ -418,10 +418,10 @@ export class GyroscopeSceneNode extends Node {
 
   private palette() {
     return {
-      body: RigidBodyPrecessionColors.wheelBodyColorProperty.value,
-      marking: RigidBodyPrecessionColors.wheelMarkingColorProperty.value,
-      axle: RigidBodyPrecessionColors.gyroscopeColorProperty.value,
-      shadow: RigidBodyPrecessionColors.sceneShadowColorProperty.value,
+      body: PrecessionColors.wheelBodyColorProperty.value,
+      marking: PrecessionColors.wheelMarkingColorProperty.value,
+      axle: PrecessionColors.gyroscopeColorProperty.value,
+      shadow: PrecessionColors.sceneShadowColorProperty.value,
     };
   }
 
@@ -438,33 +438,33 @@ export class GyroscopeSceneNode extends Node {
     const radius = size / 2 - 13;
 
     const card = new Rectangle(x, y, size, size, {
-      fill: RigidBodyPrecessionColors.sceneInsetCardColorProperty,
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      fill: PrecessionColors.sceneInsetCardColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
       lineWidth: 1,
       cornerRadius: 6,
     });
     const orbit = new Circle(radius, {
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
       lineWidth: 1,
       lineDash: [3, 3],
       center,
     });
     /** The angle φ swept since t = 0, filled in — precession as an accumulating angle. */
-    const sweep = new Path(null, { fill: RigidBodyPrecessionColors.precessionColorProperty, opacity: 0.22 });
+    const sweep = new Path(null, { fill: PrecessionColors.precessionColorProperty, opacity: 0.22 });
     const radial = new Path(null, {
-      stroke: RigidBodyPrecessionColors.gyroscopeColorProperty,
+      stroke: PrecessionColors.gyroscopeColorProperty,
       lineWidth: 1.5,
     });
     const zeroMark = new Path(new Shape().moveToPoint(center).lineToPoint(center.plusXY(radius, 0)), {
-      stroke: RigidBodyPrecessionColors.textColorProperty,
+      stroke: PrecessionColors.textColorProperty,
       lineWidth: 1,
       lineDash: [2, 3],
       opacity: 0.5,
     });
-    const dot = new Circle(4, { fill: RigidBodyPrecessionColors.precessionColorProperty });
+    const dot = new Circle(4, { fill: PrecessionColors.precessionColorProperty });
     const label = new Text("from above", {
       font: SMALL_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       centerX: center.x,
       top: y + 3,
       opacity: 0.75,

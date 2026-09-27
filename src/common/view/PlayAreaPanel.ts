@@ -8,16 +8,16 @@ import type { TReadOnlyProperty } from "scenerystack/axon";
 import type { Node } from "scenerystack/scenery";
 import { Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { SimPanel } from "../SimPanel.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { PrecessionPanel } from "../PrecessionPanel.js";
 
 const TITLE_FONT = new PhetFont({ size: 13, weight: "bold" });
 
-export class PlayAreaPanel extends SimPanel {
+export class PlayAreaPanel extends PrecessionPanel {
   public constructor(title: TReadOnlyProperty<string> | string, content: Node) {
     const titleNode = new Text(title, {
       font: TITLE_FONT,
-      fill: RigidBodyPrecessionColors.accentColorProperty,
+      fill: PrecessionColors.accentColorProperty,
     });
     const inner = new VBox({
       spacing: 6,

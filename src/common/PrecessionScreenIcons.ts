@@ -1,5 +1,5 @@
 /**
- * RigidBodyPrecessionScreenIcons.ts
+ * PrecessionScreenIcons.ts
  *
  * Programmatic home-screen / navigation-bar icons.
  *
@@ -13,8 +13,8 @@ import { Shape } from "scenerystack/kite";
 import { Node, Path, Rectangle } from "scenerystack/scenery";
 import { ArrowNode } from "scenerystack/scenery-phet";
 import { ScreenIcon } from "scenerystack/sim";
-import RigidBodyPrecessionColors from "../RigidBodyPrecessionColors.js";
-import { TUMBLE_BOX_SIZE_M } from "../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../PrecessionColors.js";
+import { TUMBLE_BOX_SIZE_M } from "../PrecessionConstants.js";
 import type { Rotation } from "./rigid-body/TorqueFreePhysics.js";
 import { type Camera3D, circleArcPoints, createCamera, project, projectHorizontalCircle } from "./view/Camera3D.js";
 import { SpinningWheelNode, type WheelGeometry } from "./view/SpinningWheelNode.js";
@@ -24,23 +24,23 @@ const W = 548;
 const H = 373;
 
 function background(): Rectangle {
-  return new Rectangle(0, 0, W, H, { fill: RigidBodyPrecessionColors.backgroundColorProperty });
+  return new Rectangle(0, 0, W, H, { fill: PrecessionColors.backgroundColorProperty });
 }
 
 function iconFrom(content: Node): ScreenIcon {
   return new ScreenIcon(content, {
     maxIconWidthProportion: 1,
     maxIconHeightProportion: 1,
-    fill: RigidBodyPrecessionColors.backgroundColorProperty,
+    fill: PrecessionColors.backgroundColorProperty,
   });
 }
 
 function wheelPalette() {
   return {
-    body: RigidBodyPrecessionColors.wheelBodyColorProperty.value,
-    marking: RigidBodyPrecessionColors.wheelMarkingColorProperty.value,
-    axle: RigidBodyPrecessionColors.gyroscopeColorProperty.value,
-    shadow: RigidBodyPrecessionColors.sceneShadowColorProperty.value,
+    body: PrecessionColors.wheelBodyColorProperty.value,
+    marking: PrecessionColors.wheelMarkingColorProperty.value,
+    axle: PrecessionColors.gyroscopeColorProperty.value,
+    shadow: PrecessionColors.sceneShadowColorProperty.value,
   };
 }
 
@@ -82,7 +82,7 @@ export function createSteadyPrecessionIcon(): ScreenIcon {
       ),
     ),
     {
-      stroke: RigidBodyPrecessionColors.precessionColorProperty,
+      stroke: PrecessionColors.precessionColorProperty,
       lineWidth: 5,
       lineDash: [14, 11],
       opacity: 0.75,
@@ -96,8 +96,8 @@ export function createSteadyPrecessionIcon(): ScreenIcon {
     headHeight: 22,
     headWidth: 20,
     tailWidth: 7,
-    fill: RigidBodyPrecessionColors.torqueColorProperty,
-    stroke: RigidBodyPrecessionColors.torqueColorProperty,
+    fill: PrecessionColors.torqueColorProperty,
+    stroke: PrecessionColors.torqueColorProperty,
   });
   const tipDirection = new Vector3(Math.sin(tilt) * Math.cos(phi), Math.sin(tilt) * Math.sin(phi), Math.cos(tilt));
   const tip = project(camera, tipDirection.timesScalar(geometry.axleLength));
@@ -138,7 +138,7 @@ export function createNutationIcon(): ScreenIcon {
   }
 
   const trace = new Path(polyline(camera, points), {
-    stroke: RigidBodyPrecessionColors.tipTraceColorProperty,
+    stroke: PrecessionColors.tipTraceColorProperty,
     lineWidth: 6,
     lineJoin: "round",
   });
@@ -166,11 +166,11 @@ export function createTorqueFreeIcon(): ScreenIcon {
     camera,
     { size: new Vector3(TUMBLE_BOX_SIZE_M.x, TUMBLE_BOX_SIZE_M.y, TUMBLE_BOX_SIZE_M.z) },
     {
-      faceX: RigidBodyPrecessionColors.wheelBodyColorProperty.value,
-      faceY: RigidBodyPrecessionColors.torqueColorProperty.value,
-      faceZ: RigidBodyPrecessionColors.weightColorProperty.value,
-      edge: RigidBodyPrecessionColors.gyroscopeColorProperty.value,
-      mark: RigidBodyPrecessionColors.wheelMarkingColorProperty.value,
+      faceX: PrecessionColors.wheelBodyColorProperty.value,
+      faceY: PrecessionColors.torqueColorProperty.value,
+      faceZ: PrecessionColors.weightColorProperty.value,
+      edge: PrecessionColors.gyroscopeColorProperty.value,
+      mark: PrecessionColors.wheelMarkingColorProperty.value,
     },
   );
   box.update(orientation);
@@ -179,8 +179,8 @@ export function createTorqueFreeIcon(): ScreenIcon {
     headHeight: 24,
     headWidth: 22,
     tailWidth: 8,
-    fill: RigidBodyPrecessionColors.angularMomentumColorProperty,
-    stroke: RigidBodyPrecessionColors.angularMomentumColorProperty,
+    fill: PrecessionColors.angularMomentumColorProperty,
+    stroke: PrecessionColors.angularMomentumColorProperty,
   });
   const origin = project(camera, Vector3.ZERO);
   const tip = project(camera, new Vector3(0, 0, 0.26));

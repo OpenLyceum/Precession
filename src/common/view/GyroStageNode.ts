@@ -14,7 +14,7 @@
 import { type Vector2, Vector3 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { Node, Path } from "scenerystack/scenery";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
+import PrecessionColors from "../../PrecessionColors.js";
 import { type Camera3D, circleArcPoints, project, projectHorizontalCircle, shadeColor } from "./Camera3D.js";
 import { cylinderShapes } from "./CylinderShapes.js";
 
@@ -41,7 +41,7 @@ export class GyroStageNode extends Node {
     // ── Floor ─────────────────────────────────────────────────────────────────
     const floorCircle = projectHorizontalCircle(camera, groundZ, options.groundRadius);
     const floor = new Path(Shape.polygon(circleArcPoints(floorCircle, 0, 2 * Math.PI, 64)), {
-      fill: RigidBodyPrecessionColors.sceneGroundColorProperty,
+      fill: PrecessionColors.sceneGroundColorProperty,
     });
 
     const grid = new Shape();
@@ -64,7 +64,7 @@ export class GyroStageNode extends Node {
       grid.lineToPoint(outer);
     }
     const gridPath = new Path(grid, {
-      stroke: RigidBodyPrecessionColors.sceneGroundGridColorProperty,
+      stroke: PrecessionColors.sceneGroundGridColorProperty,
       lineWidth: 0.75,
     });
 
@@ -74,7 +74,7 @@ export class GyroStageNode extends Node {
         .moveToPoint(project(camera, new Vector3(0, 0, groundZ)))
         .lineToPoint(project(camera, new Vector3(0, 0, options.verticalExtent))),
       {
-        stroke: RigidBodyPrecessionColors.textColorProperty,
+        stroke: PrecessionColors.textColorProperty,
         lineWidth: 1,
         lineDash: [4, 5],
         opacity: 0.4,
@@ -86,7 +86,7 @@ export class GyroStageNode extends Node {
     const ex = new Vector3(1, 0, 0);
     const ey = new Vector3(0, 1, 0);
 
-    const baseColor = RigidBodyPrecessionColors.standColorProperty.value;
+    const baseColor = PrecessionColors.standColorProperty.value;
     const post = cylinderShapes(
       camera,
       up,
@@ -124,7 +124,7 @@ export class GyroStageNode extends Node {
     this.children = [floor, gridPath, vertical, footNode, postNode];
 
     // The stand's shading is baked from the palette, so redraw it on theme change.
-    RigidBodyPrecessionColors.standColorProperty.lazyLink((color) => {
+    PrecessionColors.standColorProperty.lazyLink((color) => {
       const shades = [0.85, 1.2, 0.7, 1.05];
       const nodes = [postNode.children[0], postNode.children[1], footNode.children[0], footNode.children[1]];
       nodes.forEach((node, i) => {

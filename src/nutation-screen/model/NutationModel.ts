@@ -44,7 +44,7 @@ import {
   NUTATION_TRACE_CAPACITY,
   NUTATION_TRANSVERSE_INERTIA_KG_M2,
   NUTATION_WHEEL_MASS_KG,
-} from "../../RigidBodyPrecessionConstants.js";
+} from "../../PrecessionConstants.js";
 
 /** Slow motion factor, so the ~1.6 Hz nutation can be followed by eye. */
 const SLOW_MOTION_FACTOR = 0.25;

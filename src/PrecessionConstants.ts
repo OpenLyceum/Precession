@@ -1,10 +1,10 @@
 /**
- * RigidBodyPrecessionConstants.ts
+ * PrecessionConstants.ts
  *
  * Central repository for every named numeric constant used across the simulation.
  */
 
-import RigidBodyPrecessionNamespace from "./RigidBodyPrecessionNamespace.js";
+import PrecessionNamespace from "./PrecessionNamespace.js";
 
 // ── Layout / chrome (screen pixels) ───────────────────────────────────────────
 
@@ -202,7 +202,7 @@ export const NUTATION_TILT_RANGE = { min: (3 * Math.PI) / 180, max: (80 * Math.P
 /** Launch spin range for the torque-free screen (rad/s). */
 export const TUMBLE_SPIN_RANGE = { min: 2, max: 12 };
 
-RigidBodyPrecessionNamespace.register("RigidBodyPrecessionConstants", {
+PrecessionNamespace.register("PrecessionConstants", {
   SCREEN_VIEW_MARGIN,
   PANEL_CORNER_RADIUS,
   GRAVITY_MPS2,

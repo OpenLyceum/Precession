@@ -21,7 +21,7 @@ import {
   stepTorqueFree,
   type TorqueFreeState,
 } from "../src/common/rigid-body/TorqueFreePhysics.js";
-import { TUMBLE_BOX_MASS_KG, TUMBLE_BOX_SIZE_M } from "../src/RigidBodyPrecessionConstants.js";
+import { TUMBLE_BOX_MASS_KG, TUMBLE_BOX_SIZE_M } from "../src/PrecessionConstants.js";
 
 const INERTIA = boxInertia(TUMBLE_BOX_MASS_KG, TUMBLE_BOX_SIZE_M.x, TUMBLE_BOX_SIZE_M.y, TUMBLE_BOX_SIZE_M.z);
 

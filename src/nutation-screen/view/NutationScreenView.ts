@@ -13,11 +13,11 @@ import {
   FLAT_PLAY_PAUSE_STEP_BUTTON_OPTIONS,
   FLAT_RESET_ALL_BUTTON_OPTIONS,
   TIME_CONTROL_SPEED_RADIO_OPTIONS,
-} from "../../common/SimButtonOptions.js";
+} from "../../common/PrecessionButtonOptions.js";
 import { PlayAreaPanel } from "../../common/view/PlayAreaPanel.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { SCREEN_VIEW_MARGIN } from "../../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { SCREEN_VIEW_MARGIN } from "../../PrecessionConstants.js";
 import type { NutationModel } from "../model/NutationModel.js";
 import { NutationAngleGraphNode } from "./NutationAngleGraphNode.js";
 import { NutationControlPanel } from "./NutationControlPanel.js";
@@ -41,7 +41,7 @@ export class NutationScreenView extends ScreenView {
 
     this.addChild(
       new Rectangle(0, 0, this.layoutBounds.width, this.layoutBounds.height, {
-        fill: RigidBodyPrecessionColors.backgroundColorProperty,
+        fill: PrecessionColors.backgroundColorProperty,
       }),
     );
 

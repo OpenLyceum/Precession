@@ -15,8 +15,8 @@ import { Multilink } from "scenerystack/axon";
 import { Bounds2, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { Circle, Node, Path } from "scenerystack/scenery";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { NUTATION_MAX_TILT_RAD, NUTATION_TRACE_DRAW_SAMPLES } from "../../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { NUTATION_MAX_TILT_RAD, NUTATION_TRACE_DRAW_SAMPLES } from "../../PrecessionConstants.js";
 import type { NutationModel } from "../model/NutationModel.js";
 
 export const TIP_PATH_VIEW_WIDTH = 215;
@@ -67,27 +67,27 @@ export class TipPathViewNode extends Node {
         .lineTo(CENTER.x + 7, CENTER.y)
         .moveTo(CENTER.x, CENTER.y - 7)
         .lineTo(CENTER.x, CENTER.y + 7),
-      { stroke: RigidBodyPrecessionColors.textColorProperty, lineWidth: 1, opacity: 0.4 },
+      { stroke: PrecessionColors.textColorProperty, lineWidth: 1, opacity: 0.4 },
     );
 
     /** The annulus between the two turning-point circles: the tip cannot leave it. */
     const bandFill = new Path(null, {
-      fill: RigidBodyPrecessionColors.nutationBandColorProperty,
+      fill: PrecessionColors.nutationBandColorProperty,
       opacity: 0.14,
     });
     const bandEdges = new Path(null, {
-      stroke: RigidBodyPrecessionColors.nutationBandColorProperty,
+      stroke: PrecessionColors.nutationBandColorProperty,
       lineWidth: 1.2,
       lineDash: [5, 4],
       opacity: 0.9,
     });
 
     const path = new Path(null, {
-      stroke: RigidBodyPrecessionColors.tipTraceColorProperty,
+      stroke: PrecessionColors.tipTraceColorProperty,
       lineWidth: 2,
       lineJoin: "round",
     });
-    const tipDot = new Circle(4, { fill: RigidBodyPrecessionColors.tipTraceColorProperty });
+    const tipDot = new Circle(4, { fill: PrecessionColors.tipTraceColorProperty });
 
     this.children = [bandFill, bandEdges, crosshair, path, tipDot];
 

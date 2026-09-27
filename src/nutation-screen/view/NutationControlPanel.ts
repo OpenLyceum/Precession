@@ -11,17 +11,17 @@ import { Dimension2, Range, toFixed } from "scenerystack/dot";
 import { type Color, HBox, Line, type Node, RichText, Text, VBox } from "scenerystack/scenery";
 import { NumberControl, PhetFont } from "scenerystack/scenery-phet";
 import { Checkbox, ComboBox, RectangularPushButton } from "scenerystack/sun";
-import type { ReleaseMode } from "../../common/rigid-body/HeavySymmetricTopPhysics.js";
 import {
   FLAT_RECTANGULAR_BUTTON_OPTIONS,
   LIGHT_SURFACE_TEXT_FILL,
-  SIM_COMBO_BOX_OPTIONS,
-} from "../../common/SimButtonOptions.js";
-import { SimPanel } from "../../common/SimPanel.js";
+  PRECESSION_COMBO_BOX_OPTIONS,
+} from "../../common/PrecessionButtonOptions.js";
+import { PrecessionPanel } from "../../common/PrecessionPanel.js";
+import type { ReleaseMode } from "../../common/rigid-body/HeavySymmetricTopPhysics.js";
 import { createUnitProxy } from "../../common/view/UnitProxyProperty.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { NUTATION_PANEL_WIDTH, NUTATION_SPIN_RANGE, NUTATION_TILT_RANGE } from "../../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { NUTATION_PANEL_WIDTH, NUTATION_SPIN_RANGE, NUTATION_TILT_RANGE } from "../../PrecessionConstants.js";
 import type { NutationModel } from "../model/NutationModel.js";
 
 const TITLE_FONT = new PhetFont({ size: 13, weight: "bold" });
@@ -41,7 +41,7 @@ function createNumberControl(
   decimalPlaces: number,
   accessibleName: TReadOnlyProperty<string>,
 ): NumberControl {
-  const titleNode = new Text(title, { font: TITLE_FONT, fill: RigidBodyPrecessionColors.textColorProperty });
+  const titleNode = new Text(title, { font: TITLE_FONT, fill: PrecessionColors.textColorProperty });
   return new NumberControl(titleNode, property, range, {
     delta,
     layoutFunction: NumberControl.createLayoutFunction1({ align: "center", ySpacing: 2 }),
@@ -66,13 +66,13 @@ function readoutRow(
   return new HBox({
     spacing: 8,
     children: [
-      new Text(label, { font: READOUT_LABEL_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
+      new Text(label, { font: READOUT_LABEL_FONT, fill: PrecessionColors.textColorProperty }),
       new Text(valueProperty, { font: READOUT_FONT, fill: colorProperty }),
     ],
   });
 }
 
-export class NutationControlPanel extends SimPanel {
+export class NutationControlPanel extends PrecessionPanel {
   public constructor(model: NutationModel, listParent: Node) {
     const strings = StringManager.getInstance().getNutationStrings();
     const a11y = StringManager.getInstance().getNutationA11yStrings();
@@ -102,7 +102,7 @@ export class NutationControlPanel extends SimPanel {
 
     const releaseLabel = new Text(strings.releaseModeStringProperty, {
       font: TITLE_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
     });
 
     const releaseItems: Array<{
@@ -137,7 +137,7 @@ export class NutationControlPanel extends SimPanel {
     ];
 
     const releaseComboBox = new ComboBox<ReleaseMode>(model.releaseModeProperty, releaseItems, listParent, {
-      ...SIM_COMBO_BOX_OPTIONS,
+      ...PRECESSION_COMBO_BOX_OPTIONS,
       accessibleName: a11y.controls.releaseModeStringProperty,
       listPosition: "below",
     });
@@ -146,12 +146,12 @@ export class NutationControlPanel extends SimPanel {
       model.frictionEnabledProperty,
       new Text(strings.frictionStringProperty, {
         font: READOUT_FONT,
-        fill: RigidBodyPrecessionColors.textColorProperty,
+        fill: PrecessionColors.textColorProperty,
         maxWidth: NUTATION_PANEL_WIDTH - 60,
       }),
       {
-        checkboxColor: RigidBodyPrecessionColors.textColorProperty,
-        checkboxColorBackground: RigidBodyPrecessionColors.panelBackgroundColorProperty,
+        checkboxColor: PrecessionColors.textColorProperty,
+        checkboxColorBackground: PrecessionColors.panelBackgroundColorProperty,
         accessibleName: a11y.controls.frictionStringProperty,
         boxWidth: 18,
       },
@@ -160,7 +160,7 @@ export class NutationControlPanel extends SimPanel {
     const releaseButton = new RectangularPushButton({
       ...FLAT_RECTANGULAR_BUTTON_OPTIONS,
       content: new Text(strings.releaseAgainStringProperty, { font: READOUT_FONT, fill: LIGHT_SURFACE_TEXT_FILL }),
-      baseColor: RigidBodyPrecessionColors.controlSurfaceColorProperty,
+      baseColor: PrecessionColors.controlSurfaceColorProperty,
       accessibleName: a11y.controls.releaseAgainStringProperty,
       listener: () => model.release(),
     });
@@ -183,9 +183,7 @@ export class NutationControlPanel extends SimPanel {
       (rate) => `${toFixed(rate * HZ_PER_RAD_S, 2)} Hz`,
     );
     const criticalColorProperty = new DerivedProperty([model.aboveCriticalSpinProperty], (above) =>
-      above
-        ? RigidBodyPrecessionColors.precessionColorProperty.value
-        : RigidBodyPrecessionColors.warningColorProperty.value,
+      above ? PrecessionColors.precessionColorProperty.value : PrecessionColors.warningColorProperty.value,
     );
 
     // A sleeping top is the one classic regime the tilt slider can now actually reach:
@@ -196,9 +194,7 @@ export class NutationControlPanel extends SimPanel {
       (sleeps, sleepsText, topplesText) => (sleeps ? sleepsText : topplesText),
     );
     const sleepColorProperty = new DerivedProperty([model.sleepingStableProperty], (sleeps) =>
-      sleeps
-        ? RigidBodyPrecessionColors.precessionColorProperty.value
-        : RigidBodyPrecessionColors.warningColorProperty.value,
+      sleeps ? PrecessionColors.precessionColorProperty.value : PrecessionColors.warningColorProperty.value,
     );
 
     // The two constants of the motion. With friction off they hold to many decimal
@@ -212,32 +208,32 @@ export class NutationControlPanel extends SimPanel {
     );
 
     const separator = new Line(0, 0, NUTATION_PANEL_WIDTH - 40, 0, {
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
       lineWidth: 1,
     });
 
     const readoutHeader = new Text(strings.readoutsTitleStringProperty, {
       font: SECTION_FONT,
-      fill: RigidBodyPrecessionColors.accentColorProperty,
+      fill: PrecessionColors.accentColorProperty,
     });
 
     const criticalWarning = new RichText(strings.belowCriticalStringProperty, {
       font: new PhetFont({ size: 11 }),
-      fill: RigidBodyPrecessionColors.warningColorProperty,
+      fill: PrecessionColors.warningColorProperty,
       lineWrap: NUTATION_PANEL_WIDTH - 40,
       visibleProperty: new DerivedProperty([model.aboveCriticalSpinProperty], (above) => !above),
     });
 
     const sleepNote = new RichText(strings.sleepNoteStringProperty, {
       font: new PhetFont({ size: 10 }),
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       lineWrap: NUTATION_PANEL_WIDTH - 40,
       opacity: 0.7,
     });
 
     const conservedNote = new RichText(strings.conservedNoteStringProperty, {
       font: new PhetFont({ size: 10 }),
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       lineWrap: NUTATION_PANEL_WIDTH - 40,
       opacity: 0.7,
     });
@@ -246,7 +242,7 @@ export class NutationControlPanel extends SimPanel {
     // on one line, which at this size is unreadable. lineWrap wraps it instead.
     const insight = new RichText(strings.insightStringProperty, {
       font: new PhetFont({ size: 11 }),
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       lineWrap: NUTATION_PANEL_WIDTH - 40,
       opacity: 0.85,
     });
@@ -262,13 +258,13 @@ export class NutationControlPanel extends SimPanel {
         releaseButton,
         separator,
         readoutHeader,
-        readoutRow("θ range", bandValueProperty, RigidBodyPrecessionColors.nutationBandColorProperty),
-        readoutRow("f_nut", nutationValueProperty, RigidBodyPrecessionColors.tipTraceColorProperty),
-        readoutRow("Ω_mean", precessionValueProperty, RigidBodyPrecessionColors.precessionColorProperty),
+        readoutRow("θ range", bandValueProperty, PrecessionColors.nutationBandColorProperty),
+        readoutRow("f_nut", nutationValueProperty, PrecessionColors.tipTraceColorProperty),
+        readoutRow("Ω_mean", precessionValueProperty, PrecessionColors.precessionColorProperty),
         readoutRow("ω₃ min", criticalValueProperty, criticalColorProperty),
         readoutRow(strings.sleepLabelStringProperty, sleepValueProperty, sleepColorProperty),
-        readoutRow("E", energyValueProperty, RigidBodyPrecessionColors.textColorProperty),
-        readoutRow("p_φ", momentumValueProperty, RigidBodyPrecessionColors.textColorProperty),
+        readoutRow("E", energyValueProperty, PrecessionColors.textColorProperty),
+        readoutRow("p_φ", momentumValueProperty, PrecessionColors.textColorProperty),
         sleepNote,
         conservedNote,
         criticalWarning,

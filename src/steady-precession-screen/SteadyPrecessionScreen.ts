@@ -4,9 +4,9 @@
 
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { Screen, type ScreenOptions } from "scenerystack/sim";
-import { createSteadyPrecessionIcon } from "../common/RigidBodyPrecessionScreenIcons.js";
+import { createSteadyPrecessionIcon } from "../common/PrecessionScreenIcons.js";
 import { StringManager } from "../i18n/StringManager.js";
-import RigidBodyPrecessionColors from "../RigidBodyPrecessionColors.js";
+import PrecessionColors from "../PrecessionColors.js";
 import { SteadyPrecessionModel } from "./model/SteadyPrecessionModel.js";
 import { SteadyPrecessionKeyboardHelpContent } from "./view/SteadyPrecessionKeyboardHelpContent.js";
 import { SteadyPrecessionScreenView } from "./view/SteadyPrecessionScreenView.js";
@@ -19,7 +19,7 @@ export class SteadyPrecessionScreen extends Screen<SteadyPrecessionModel, Steady
       optionize<ScreenOptions, EmptySelfOptions, ScreenOptions>()(
         {
           name: StringManager.getInstance().getScreenNames().steadyPrecessionStringProperty,
-          backgroundColorProperty: RigidBodyPrecessionColors.backgroundColorProperty,
+          backgroundColorProperty: PrecessionColors.backgroundColorProperty,
           createKeyboardHelpNode: () => new SteadyPrecessionKeyboardHelpContent(),
           homeScreenIcon: createSteadyPrecessionIcon(),
           navigationBarIcon: createSteadyPrecessionIcon(),

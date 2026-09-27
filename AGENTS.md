@@ -13,9 +13,9 @@ template's **canonical accessibility** wiring. For multi-screen sims, see
 
 | File | Purpose |
 |---|---|
-| `src/RigidBodyPrecessionColors.ts` | All `ProfileColorProperty` instances |
-| `src/RigidBodyPrecessionConstants.ts` | Named numeric constants (layout px, physics SI units) |
-| `src/RigidBodyPrecessionNamespace.ts` | Namespace for color property names |
+| `src/PrecessionColors.ts` | All `ProfileColorProperty` instances |
+| `src/PrecessionConstants.ts` | Named numeric constants (layout px, physics SI units) |
+| `src/PrecessionNamespace.ts` | Namespace for color property names |
 | `src/i18n/StringManager.ts` | Singleton localized string accessor |
 | `src/steady-precession-screen/` | Screen 1 — idealized Ω = τ/(Iω) gyroscope |
 | `src/nutation-screen/` | Screen 2 — heavy symmetric top integrated from its full Lagrangian |
@@ -32,8 +32,8 @@ template's **canonical accessibility** wiring. For multi-screen sims, see
 | `src/common/view/GyroStageNode.ts` | Floor grid, stand, and vertical reference shared by Screens 1 and 2 |
 | `src/common/view/SpinPhase.ts` | Rate-capped spin phase + blur factor, so fast wheels do not strobe |
 | `src/common/view/PlayAreaPanel.ts` | Titled panel wrapper shared by every screen's play area |
-| `src/common/SimPanel.ts` | Pre-themed `Panel` wrapper (uses `RigidBodyPrecessionColors` automatically) |
-| `src/common/SimButtonOptions.ts` | Flat button-appearance option bundles + light-control-surface combo-box options |
+| `src/common/PrecessionPanel.ts` | Pre-themed `Panel` wrapper (uses `PrecessionColors` automatically) |
+| `src/common/PrecessionButtonOptions.ts` | Flat button-appearance option bundles + light-control-surface combo-box options |
 | `src/common/TimeModel.ts` | Composable play/pause + elapsed-time model for animated sims |
 | `scripts/generate-icons.ts` | PNG icons from `public/icons/icon.svg` |
 
@@ -82,7 +82,7 @@ Friction is a phenomenological viscous model (`tipDrag` on the center of mass, `
 on the spin), off by default. `maxTilt` is an inelastic mechanical stop where the axle
 rests against its mount — the nutation screen sets it to 90°.
 
-Apparatus constants (`NUTATION_*` in `RigidBodyPrecessionConstants.ts`) are a
+Apparatus constants (`NUTATION_*` in `PrecessionConstants.ts`) are a
 demonstration gyroscope wheel. Note that ω_nut · Ω_slow = M g l / I₁ is fixed by the
 apparatus alone: a hand-sized top nutates at several hertz no matter how it is spun, so
 the wheel is deliberately large and short-armed to bring both timescales on screen at
@@ -124,7 +124,7 @@ itself:
   and in front of it on the near half. That single cue is most of what turns an ambiguous
   ellipse into an object.
 - **`shadeFactor`** — Lambert against a fixed key light, with an ambient floor. Colors in
-  `RigidBodyPrecessionColors` are *base* tones for this; pick mid-tones so there is
+  `PrecessionColors` are *base* tones for this; pick mid-tones so there is
   headroom to brighten and darken.
 
 Because the map is linear, a circle projects to an exact ellipse (`projectCircle`), and the
@@ -142,15 +142,15 @@ picture does not quietly misstate ω.
 
 ## Common components
 
-### SimPanel
+### PrecessionPanel
 
-Every control panel and info box in the sim should use `SimPanel` so that
+Every control panel and info box in the sim should use `PrecessionPanel` so that
 default/projector color switching is automatic:
 
 ```typescript
-import { SimPanel } from "../../common/SimPanel.js";
-const panel = new SimPanel(content);              // uses RigidBodyPrecessionColors defaults
-const panel = new SimPanel(content, { xMargin: 20 }); // override any PanelOption
+import { PrecessionPanel } from "../../common/PrecessionPanel.js";
+const panel = new PrecessionPanel(content);              // uses PrecessionColors defaults
+const panel = new PrecessionPanel(content, { xMargin: 20 }); // override any PanelOption
 ```
 
 ### TimeModel
@@ -189,13 +189,13 @@ Wire the view to `TimeControlNode` from `scenerystack/scenery-phet` binding on
 `model.stepOnce` — step-forward has to work in exactly the state where `step()` is a
 no-op.
 
-### SimButtonOptions
+### PrecessionButtonOptions
 
 SceneryStack's push/round buttons default to a 3-D/beveled look; every button in the sim
 should be flat instead. Spread these into the relevant options object:
 
 ```typescript
-import { FLAT_RESET_ALL_BUTTON_OPTIONS, FLAT_RECTANGULAR_BUTTON_OPTIONS } from "../../common/SimButtonOptions.js";
+import { FLAT_RESET_ALL_BUTTON_OPTIONS, FLAT_RECTANGULAR_BUTTON_OPTIONS } from "../../common/PrecessionButtonOptions.js";
 
 const resetAllButton = new ResetAllButton({ ...FLAT_RESET_ALL_BUTTON_OPTIONS, listener: () => {...} });
 const exampleButton = new RectangularPushButton({ ...FLAT_RECTANGULAR_BUTTON_OPTIONS, content, listener });
@@ -203,11 +203,11 @@ const exampleButton = new RectangularPushButton({ ...FLAT_RECTANGULAR_BUTTON_OPT
 
 `FLAT_PLAY_PAUSE_STEP_BUTTON_OPTIONS` spreads into `TimeControlNode`'s `playPauseStepButtonOptions`;
 `TIME_CONTROL_SPEED_RADIO_OPTIONS` fixes `TimeControlNode`'s speed-radio label color, which
-otherwise defaults to black text on the sim's dark default-mode panels. `SIM_COMBO_BOX_OPTIONS`
+otherwise defaults to black text on the sim's dark default-mode panels. `PRECESSION_COMBO_BOX_OPTIONS`
 themes a `ComboBox`'s button/list chrome to the light control surface below; pair item labels
-with `LIGHT_SURFACE_TEXT_FILL` (not `RigidBodyPrecessionColors.textColorProperty`, which is for panel-fill text).
+with `LIGHT_SURFACE_TEXT_FILL` (not `PrecessionColors.textColorProperty`, which is for panel-fill text).
 
-`RigidBodyPrecessionColors.ts` backs this with a "light control surfaces" section —
+`PrecessionColors.ts` backs this with a "light control surfaces" section —
 `controlSurfaceColorProperty`, `controlSurfaceDisabledColorProperty`,
 `controlSurfaceTextColorProperty` — identical white/dark-text values in both default and
 projector profiles, so any component that must stay light regardless of theme (combo boxes,
@@ -216,8 +216,8 @@ flat buttons, editable fields) keeps readable contrast automatically.
 ## Accessibility
 
 This template is the **canonical accessibility reference** for OpenLyceum sims. It ships with
-the three required layers wired up: PDOM names, a `RigidBodyPrecessionScreenSummaryContent`, and an explicit
-`pdomOrder` + `RigidBodyPrecessionKeyboardHelpContent`. A11y strings live under the `a11y` key in each locale
+the three required layers wired up: PDOM names, a `PrecessionScreenSummaryContent`, and an explicit
+`pdomOrder` + `PrecessionKeyboardHelpContent`. A11y strings live under the `a11y` key in each locale
 JSON, exposed via `StringManager.getA11yStrings()`. When building a real sim, make
 `currentDetailsContent` a live `DerivedProperty` over model state and add `accessibleName`s to
 every interactive node. Full convention and checklist: [Baton/ACCESSIBILITY.md](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).

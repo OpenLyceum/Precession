@@ -11,11 +11,11 @@ import { Dimension2, Range, toFixed } from "scenerystack/dot";
 import { HBox, Line, type Node, RichText, Text, VBox } from "scenerystack/scenery";
 import { NumberControl, PhetFont } from "scenerystack/scenery-phet";
 import { Checkbox, ComboBox, type ComboBoxItem } from "scenerystack/sun";
-import { LIGHT_SURFACE_TEXT_FILL, SIM_COMBO_BOX_OPTIONS } from "../../common/SimButtonOptions.js";
-import { SimPanel } from "../../common/SimPanel.js";
+import { LIGHT_SURFACE_TEXT_FILL, PRECESSION_COMBO_BOX_OPTIONS } from "../../common/PrecessionButtonOptions.js";
+import { PrecessionPanel } from "../../common/PrecessionPanel.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import RigidBodyPrecessionColors from "../../RigidBodyPrecessionColors.js";
-import { TORQUE_FREE_PANEL_WIDTH, TUMBLE_SPIN_RANGE } from "../../RigidBodyPrecessionConstants.js";
+import PrecessionColors from "../../PrecessionColors.js";
+import { TORQUE_FREE_PANEL_WIDTH, TUMBLE_SPIN_RANGE } from "../../PrecessionConstants.js";
 import type { SpinAxis, TorqueFreeModel } from "../model/TorqueFreeModel.js";
 
 const TITLE_FONT = new PhetFont({ size: 13, weight: "bold" });
@@ -28,25 +28,25 @@ const SLIDER_WIDTH = TORQUE_FREE_PANEL_WIDTH - 56;
 function readoutRow(
   label: string | TReadOnlyProperty<string>,
   valueProperty: TReadOnlyProperty<string>,
-  colorProperty: typeof RigidBodyPrecessionColors.textColorProperty | TReadOnlyProperty<string>,
+  colorProperty: typeof PrecessionColors.textColorProperty | TReadOnlyProperty<string>,
 ): Node {
   return new HBox({
     spacing: 8,
     children: [
-      new Text(label, { font: READOUT_LABEL_FONT, fill: RigidBodyPrecessionColors.textColorProperty }),
+      new Text(label, { font: READOUT_LABEL_FONT, fill: PrecessionColors.textColorProperty }),
       new Text(valueProperty, { font: READOUT_FONT, fill: colorProperty }),
     ],
   });
 }
 
-export class TorqueFreeControlPanel extends SimPanel {
+export class TorqueFreeControlPanel extends PrecessionPanel {
   public constructor(model: TorqueFreeModel, listParent: Node) {
     const strings = StringManager.getInstance().getTorqueFreeStrings();
     const a11y = StringManager.getInstance().getTorqueFreeA11yStrings();
 
     const axisLabel = new Text(strings.spinAxisStringProperty, {
       font: TITLE_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
     });
 
     const axisItems: ComboBoxItem<SpinAxis>[] = [
@@ -71,7 +71,7 @@ export class TorqueFreeControlPanel extends SimPanel {
     ];
 
     const axisComboBox = new ComboBox<SpinAxis>(model.spinAxisProperty, axisItems, listParent, {
-      ...SIM_COMBO_BOX_OPTIONS,
+      ...PRECESSION_COMBO_BOX_OPTIONS,
       accessibleName: a11y.controls.spinAxisStringProperty,
       listPosition: "below",
     });
@@ -79,7 +79,7 @@ export class TorqueFreeControlPanel extends SimPanel {
     const spinControl = new NumberControl(
       new Text(strings.spinRateStringProperty, {
         font: TITLE_FONT,
-        fill: RigidBodyPrecessionColors.textColorProperty,
+        fill: PrecessionColors.textColorProperty,
       }),
       model.spinRateProperty as NumberProperty,
       new Range(TUMBLE_SPIN_RANGE.min, TUMBLE_SPIN_RANGE.max),
@@ -96,25 +96,25 @@ export class TorqueFreeControlPanel extends SimPanel {
       model.nudgeEnabledProperty,
       new Text(strings.nudgeStringProperty, {
         font: READOUT_FONT,
-        fill: RigidBodyPrecessionColors.textColorProperty,
+        fill: PrecessionColors.textColorProperty,
         maxWidth: TORQUE_FREE_PANEL_WIDTH - 60,
       }),
       {
-        checkboxColor: RigidBodyPrecessionColors.textColorProperty,
-        checkboxColorBackground: RigidBodyPrecessionColors.panelBackgroundColorProperty,
+        checkboxColor: PrecessionColors.textColorProperty,
+        checkboxColorBackground: PrecessionColors.panelBackgroundColorProperty,
         accessibleName: a11y.controls.nudgeStringProperty,
         boxWidth: 18,
       },
     );
 
     const separator = new Line(0, 0, TORQUE_FREE_PANEL_WIDTH - 40, 0, {
-      stroke: RigidBodyPrecessionColors.panelBorderColorProperty,
+      stroke: PrecessionColors.panelBorderColorProperty,
       lineWidth: 1,
     });
 
     const readoutHeader = new Text(strings.readoutsTitleStringProperty, {
       font: SECTION_FONT,
-      fill: RigidBodyPrecessionColors.accentColorProperty,
+      fill: PrecessionColors.accentColorProperty,
     });
 
     const energyValueProperty = new DerivedProperty([model.energyProperty], (energy) => `${toFixed(energy, 4)} J`);
@@ -127,11 +127,7 @@ export class TorqueFreeControlPanel extends SimPanel {
       (stable, stableText, unstableText) => (stable ? stableText : unstableText),
     );
     const stabilityColorProperty = new DerivedProperty(
-      [
-        model.axisStableProperty,
-        RigidBodyPrecessionColors.precessionColorProperty,
-        RigidBodyPrecessionColors.warningColorProperty,
-      ],
+      [model.axisStableProperty, PrecessionColors.precessionColorProperty, PrecessionColors.warningColorProperty],
       (stable, stableColor, warningColor) => (stable ? stableColor.toCSS() : warningColor.toCSS()),
     );
     const growthValueProperty = new DerivedProperty([model.growthRateProperty], (rate) =>
@@ -152,14 +148,14 @@ export class TorqueFreeControlPanel extends SimPanel {
     // on one line, which at this size is unreadable. lineWrap wraps it instead.
     const explanation = new RichText(strings.stabilityRuleStringProperty, {
       font: NOTE_FONT,
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       lineWrap: TORQUE_FREE_PANEL_WIDTH - 40,
       opacity: 0.85,
     });
 
     const conservedNote = new RichText(strings.conservedNoteStringProperty, {
       font: new PhetFont({ size: 10 }),
-      fill: RigidBodyPrecessionColors.textColorProperty,
+      fill: PrecessionColors.textColorProperty,
       lineWrap: TORQUE_FREE_PANEL_WIDTH - 40,
       opacity: 0.7,
     });
@@ -174,23 +170,15 @@ export class TorqueFreeControlPanel extends SimPanel {
         separator,
         readoutHeader,
         readoutRow(strings.axisLabelStringProperty, stabilityValueProperty, stabilityColorProperty),
-        readoutRow(
-          strings.growthLabelStringProperty,
-          growthValueProperty,
-          RigidBodyPrecessionColors.warningColorProperty,
-        ),
-        readoutRow(
-          strings.flipsLabelStringProperty,
-          flipCountValueProperty,
-          RigidBodyPrecessionColors.precessionColorProperty,
-        ),
+        readoutRow(strings.growthLabelStringProperty, growthValueProperty, PrecessionColors.warningColorProperty),
+        readoutRow(strings.flipsLabelStringProperty, flipCountValueProperty, PrecessionColors.precessionColorProperty),
         readoutRow(
           strings.flipPeriodLabelStringProperty,
           flipPeriodValueProperty,
-          RigidBodyPrecessionColors.precessionColorProperty,
+          PrecessionColors.precessionColorProperty,
         ),
-        readoutRow("T", energyValueProperty, RigidBodyPrecessionColors.textColorProperty),
-        readoutRow("|L|", momentumValueProperty, RigidBodyPrecessionColors.textColorProperty),
+        readoutRow("T", energyValueProperty, PrecessionColors.textColorProperty),
+        readoutRow("|L|", momentumValueProperty, PrecessionColors.textColorProperty),
         conservedNote,
         explanation,
       ],
