@@ -21,7 +21,7 @@ src/common/
   └─ TimeModel.ts
 ```
 
-`src/precession-screen/` is an empty leftover from the template scaffold. Do not mirror it. New screens should copy `src/steady-precession-screen/`.
+New screens should copy `src/steady-precession-screen/`.
 
 ## Screens
 
