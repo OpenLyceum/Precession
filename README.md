@@ -2,12 +2,14 @@
 
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
-A reusable single-screen simulation template built with [SceneryStack](https://scenerystack.org/),
-Vite 8, TypeScript 7, and Biome 2.
+Rigid-body dynamics of a spinning gyroscope, built with
+[SceneryStack](https://scenerystack.org/), Vite 8, TypeScript 7, and Biome 2.
 
 ## Features
 
-- Single-screen SceneryStack scaffold with model/view separation
+- **Steady Precession** — idealized gyroscope: precession rate \(\Omega = \tau / (I\omega)\), so faster spin means slower precession
+- **Nutation** — heavy symmetric top integrated from its Lagrangian, with the tip path and \(\theta(t)\)
+- **Torque-Free Tumbling** — Euler's equations and the tennis-racket flip
 - English, Spanish, and French localization via `StringManager`
 - Default and projector color profiles
 - Progressive Web App (installable, offline-capable)
@@ -38,8 +40,6 @@ npm start        # dev server → http://localhost:5173
 | `npm run fix` | Lint + auto-fix |
 | `npm run icons` | Regenerate PNG icons from `public/icons/icon.svg` |
 | `npm run clean` | Remove `dist/` |
-
-New sims start at `version: "0.0.0"` in `package.json`. Bump only when cutting a release (for example `npm version patch` and a matching git tag). Keep `name` in kebab-case; it is separate from the SceneryStack sim identifier in `src/init.ts`.
 
 ## Tech Stack
 

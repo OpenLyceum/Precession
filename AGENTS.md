@@ -299,7 +299,7 @@ npm run lint && npm run check && npm run build && npm test
 Full guide: [`doc/multi-screen.md`](doc/multi-screen.md)
 
 Summary:
-- Create a new screen folder mirroring `src/precession-screen/` for each screen
+- Create a new screen folder mirroring `src/steady-precession-screen/` for each screen
 - Add screen-name keys to all locale JSON files
 - Expose new `StringProperty` getters in `StringManager.getScreenNames()`
 - For shared state, create a root model passed to each per-screen model

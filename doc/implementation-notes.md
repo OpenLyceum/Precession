@@ -1,108 +1,46 @@
-# Implementation Notes - Rigid Body Precession
+# Implementation Notes — Rigid Body Precession
 
-Developer-facing notes on the **SceneryStackTemplate** scaffold. **Replace and expand this file when
-forking** to describe your sim's real architecture (see Stern Gerlach or Light Propagation for
-target quality). Until then, this documents what the template provides out of the box.
+Developer notes for the three-screen gyroscope. Educator-facing physics for steady precession is in [model.md](./model.md).
 
-## Architecture Overview
+## Architecture
 
-SceneryStackTemplate is the fleet-canonical starting point for new single-screen SceneryStack sims.
-It demonstrates Model–View separation, color profiles, localization, reset behavior, accessibility
-reference wiring, and reusable common components — **without** domain physics.
+Each screen owns its model and view. Shared rigid-body math and the 3-D drawing helpers live under `src/common/`.
 
 ```
 main.ts
-  └─ RigidBodyPrecessionScreen             (Screen<RigidBodyPrecessionModel, RigidBodyPrecessionScreenView>)
-       ├─ RigidBodyPrecessionModel          state + logic  (src/precession-screen/model/)  ← stub: add physics here
-       └─ RigidBodyPrecessionScreenView     visuals        (src/precession-screen/view/)
-            ├─ RigidBodyPrecessionScreenSummaryContent     (PDOM overview — reference a11y pattern)
-            └─ RigidBodyPrecessionKeyboardHelpContent      (keyboard help dialog)
+  ├─ steady-precession-screen/   idealized Ω = τ/(Iω)
+  ├─ nutation-screen/            heavy symmetric top (Lagrangian, RK4)
+  └─ torque-free-screen/         Euler's equations, the tennis-racket flip
 
 src/common/
-  ├─ SimPanel.ts           pre-themed panel (uses RigidBodyPrecessionColors)
-  ├─ SimButtonOptions.ts   flat button / combo-box option bundles
-  └─ TimeModel.ts          composable play/pause + elapsed time
-
-src/preferences/
-  ├─ RigidBodyPrecessionPreferencesModel   sim-specific pref state
-  ├─ RigidBodyPrecessionPreferencesNode    pref UI in Preferences → Simulation
-  └─ rigidBodyPrecessionQueryParameters    QueryStringMachine declarations
+  ├─ rigid-body/                 physics shared by the screens
+  ├─ view/                       camera, wheel, charts, stage
+  ├─ RigidBodyPrecessionScreenIcons.ts
+  ├─ SimPanel.ts
+  ├─ SimButtonOptions.ts
+  └─ TimeModel.ts
 ```
 
-Data flows Model → View through AXON `Property` objects (`.link()` / `.lazyLink()`). The view never
-integrates physics; the model never imports scenery.
+`src/precession-screen/` is an empty leftover from the template scaffold. Do not mirror it. New screens should copy `src/steady-precession-screen/`.
 
-## Common components (keep when forking)
+## Screens
 
-### SimPanel
+| Folder | Model | Integration |
+|---|---|---|
+| `src/steady-precession-screen/` | `SteadyPrecessionModel` | Closed form in `SteadyPrecessionPhysics.ts` |
+| `src/nutation-screen/` | `NutationModel` | `HeavySymmetricTopPhysics.ts` |
+| `src/torque-free-screen/` | `TorqueFreeModel` | `TorqueFreePhysics.ts` (Euler + quaternion RK4) |
 
-Every control panel should use `SimPanel` so projector-mode switching is automatic:
+`TimeModel` is the play/pause clock composed into the animated models. Screen icons are `src/common/RigidBodyPrecessionScreenIcons.ts`.
 
-```typescript
-import { SimPanel } from "../../common/SimPanel.js";
-const panel = new SimPanel(content);
-const panelWide = new SimPanel(content, { xMargin: 20 });
-```
+## Adding a screen
 
-### TimeModel
+Follow [multi-screen.md](./multi-screen.md). Mirror `src/steady-precession-screen/`, register the screen in `main.ts`, add the locale keys, and wire `homeScreenIcon` and `navigationBarIcon` from the shared icons module.
 
-Compose into your screen model for animation (do not subclass `TimeModel`):
+## Testing
 
-```typescript
-export class MyModel implements TModel {
-  public readonly timer = new TimeModel();  // pass true to auto-play on startup
-
-  public step(dt: number): void {
-    this.timer.step(dt);
-    // physics uses this.timer.timeProperty.value
-  }
-  public reset(): void { this.timer.reset(); /* restore initial state */ }
-}
-```
-
-Wire `TimeControlNode` to `model.timer.isPlayingProperty` in the view.
-
-### SimButtonOptions
-
-Spread flat button options into every push/round button and `TimeControlNode` (see `AGENTS.md`).
-Use `SIM_COMBO_BOX_OPTIONS` + `LIGHT_SURFACE_TEXT_FILL` for light control surfaces on dark panels.
-
-## Accessibility (reference implementation)
-
-The template is the **canonical OpenLyceum a11y reference**:
-
-- PDOM `accessibleName` on interactive nodes (prefer live `StringProperty`s).
-- `RigidBodyPrecessionScreenSummaryContent` with a live `currentDetailsContent` `DerivedProperty` over model state.
-- Explicit `pdomOrder` + `RigidBodyPrecessionKeyboardHelpContent`.
-- Strings under `a11y` in locale JSON → `StringManager.getA11yStrings()`.
-
-Full checklist: [Baton/ACCESSIBILITY.md](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
-
-## Testing (fleet layout — keep when forking)
-
-| Path | Purpose |
-|---|---|
-| `vitest.config.ts` | `happy-dom`; `setupFiles: ["./tests/setup.ts"]`; `execArgv: ["--expose-gc"]` |
-| `tests/setup.ts` | Canvas/AudioContext mocks + `init()` before SceneryStack imports |
-| `tests/TimeModel.test.ts` | **Replace** with real model/physics tests mirroring `src/` |
-| `tests/memory-leak.test.ts` | WeakRef + `forceGC` dispose regression |
-| `tests/fuzz/fuzz.spec.ts` | Optional Playwright smoke via `?fuzz` |
-
-Run `npm test`. Expand `memory-leak.test.ts` when adding runtime-created nodes or Property links.
-
-## Multi-screen simulations
-
-Default is single-screen. To add screens, see **`doc/multi-screen.md`**: per-screen folders mirroring
-`src/precession-screen/`, `StringManager` screen-name getters, optional shared root model, a shared
-`src/common/{SimName}ScreenIcons.ts` module (`create{Screen}Icon()` factories wired as
-`homeScreenIcon` / `navigationBarIcon`), and register all screens in `main.ts`.
+`npm test` runs Vitest (`happy-dom`, `tests/setup.ts`, `--expose-gc`), including `tests/memory-leak.test.ts`. Physics and model-wiring tests live under `tests/` next to the modules above.
 
 ## PWA
 
 After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).
-
-## Known template stubs (remove when forking)
-
-- `RigidBodyPrecessionModel.step()` / `reset()` — empty placeholders until you add physics.
-- Placeholder play-area content in `RigidBodyPrecessionScreenView` — replace with real UI.
-- `tests/TimeModel.test.ts` — sample only; add tests for your model under `tests/`.
