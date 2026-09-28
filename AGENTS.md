@@ -37,7 +37,82 @@ template's **canonical accessibility** wiring. For multi-screen sims, see
 | `src/common/TimeModel.ts` | Composable play/pause + elapsed-time model for animated sims |
 | `scripts/generate-icons.ts` | PNG icons from `public/icons/icon.svg` |
 
-## Physics
+### Common components
+
+### PrecessionPanel
+
+Every control panel and info box in the sim should use `PrecessionPanel` so that
+default/projector color switching is automatic:
+
+```typescript
+import { PrecessionPanel } from "../../common/PrecessionPanel.js";
+const panel = new PrecessionPanel(content);              // uses PrecessionColors defaults
+const panel = new PrecessionPanel(content, { xMargin: 20 }); // override any PanelOption
+```
+
+### TimeModel
+
+For simulations with animation, compose `TimeModel` into your screen model:
+
+```typescript
+import { TimeModel } from "../../common/TimeModel.js";
+
+export class MyModel implements TModel {
+  public readonly timer = new TimeModel();   // starts paused; pass true to auto-play
+
+  public step(dt: number): void {
+    if (!this.timer.isPlayingProperty.value) { return; }
+    this.stepOnce(this.timeSpeedProperty.value === TimeSpeed.SLOW ? dt * 0.25 : dt);
+  }
+
+  /** Advances regardless of play/pause — this is what step-forward calls. */
+  public stepOnce(dt: number): void {
+    this.timer.timeProperty.value += dt;
+    // integrate the physics by dt
+  }
+
+  public reset(): void { this.timer.reset(); /* … */ }
+}
+```
+
+**Gate `step()` on `isPlayingProperty`, not just the clock.** `timer.step(dt)` freezes
+`timeProperty` when paused but does nothing to stop a model that keeps integrating below
+it — the sim then animates straight through a pause while stamping every sample at the
+same frozen time, which quietly corrupts any slope measured off that series. All three
+screens use the shape above.
+
+Wire the view to `TimeControlNode` from `scenerystack/scenery-phet` binding on
+`model.timer.isPlayingProperty`, and point `stepForwardButtonOptions.listener` at
+`model.stepOnce` — step-forward has to work in exactly the state where `step()` is a
+no-op.
+
+### PrecessionButtonOptions
+
+SceneryStack's push/round buttons default to a 3-D/beveled look; every button in the sim
+should be flat instead. Spread these into the relevant options object:
+
+```typescript
+import { FLAT_RESET_ALL_BUTTON_OPTIONS, FLAT_RECTANGULAR_BUTTON_OPTIONS } from "../../common/PrecessionButtonOptions.js";
+
+const resetAllButton = new ResetAllButton({ ...FLAT_RESET_ALL_BUTTON_OPTIONS, listener: () => {...} });
+const exampleButton = new RectangularPushButton({ ...FLAT_RECTANGULAR_BUTTON_OPTIONS, content, listener });
+```
+
+`FLAT_PLAY_PAUSE_STEP_BUTTON_OPTIONS` spreads into `TimeControlNode`'s `playPauseStepButtonOptions`;
+`TIME_CONTROL_SPEED_RADIO_OPTIONS` fixes `TimeControlNode`'s speed-radio label color, which
+otherwise defaults to black text on the sim's dark default-mode panels. `PRECESSION_COMBO_BOX_OPTIONS`
+themes a `ComboBox`'s button/list chrome to the light control surface below; pair item labels
+with `LIGHT_SURFACE_TEXT_FILL` (not `PrecessionColors.textColorProperty`, which is for panel-fill text).
+
+`PrecessionColors.ts` backs this with a "light control surfaces" section —
+`controlSurfaceColorProperty`, `controlSurfaceDisabledColorProperty`,
+`controlSurfaceTextColorProperty` — identical white/dark-text values in both default and
+projector profiles, so any component that must stay light regardless of theme (combo boxes,
+flat buttons, editable fields) keeps readable contrast automatically.
+
+## Model
+
+### Physics
 
 ### Screen 1 — steady precession
 
@@ -113,7 +188,7 @@ about the intermediate axis is a genuine solution, so with no nudge the block wo
 forever and the instability would never appear; leaving it to floating-point noise would
 make the onset time an accident of the build.
 
-## Drawing in 3-D
+### Drawing in 3-D
 
 Every scene projects through `Camera3D`, which is a plain orthographic camera in the −y
 half-space raised by an elevation angle. Two of its outputs matter more than the projection
@@ -140,78 +215,17 @@ direction stays truthful; only the rate is compressed, as a stroboscope would. P
 the markings fade and rotational blur takes over, and Screen 1 captions the scene so the
 picture does not quietly misstate ω.
 
-## Common components
+### Multi-screen sims
 
-### PrecessionPanel
+Full guide: [SceneryStackTemplate `doc/multi-screen.md`](https://github.com/OpenLyceum/SceneryStackTemplate/blob/main/doc/multi-screen.md)
 
-Every control panel and info box in the sim should use `PrecessionPanel` so that
-default/projector color switching is automatic:
-
-```typescript
-import { PrecessionPanel } from "../../common/PrecessionPanel.js";
-const panel = new PrecessionPanel(content);              // uses PrecessionColors defaults
-const panel = new PrecessionPanel(content, { xMargin: 20 }); // override any PanelOption
-```
-
-### TimeModel
-
-For simulations with animation, compose `TimeModel` into your screen model:
-
-```typescript
-import { TimeModel } from "../../common/TimeModel.js";
-
-export class MyModel implements TModel {
-  public readonly timer = new TimeModel();   // starts paused; pass true to auto-play
-
-  public step(dt: number): void {
-    if (!this.timer.isPlayingProperty.value) { return; }
-    this.stepOnce(this.timeSpeedProperty.value === TimeSpeed.SLOW ? dt * 0.25 : dt);
-  }
-
-  /** Advances regardless of play/pause — this is what step-forward calls. */
-  public stepOnce(dt: number): void {
-    this.timer.timeProperty.value += dt;
-    // integrate the physics by dt
-  }
-
-  public reset(): void { this.timer.reset(); /* … */ }
-}
-```
-
-**Gate `step()` on `isPlayingProperty`, not just the clock.** `timer.step(dt)` freezes
-`timeProperty` when paused but does nothing to stop a model that keeps integrating below
-it — the sim then animates straight through a pause while stamping every sample at the
-same frozen time, which quietly corrupts any slope measured off that series. All three
-screens use the shape above.
-
-Wire the view to `TimeControlNode` from `scenerystack/scenery-phet` binding on
-`model.timer.isPlayingProperty`, and point `stepForwardButtonOptions.listener` at
-`model.stepOnce` — step-forward has to work in exactly the state where `step()` is a
-no-op.
-
-### PrecessionButtonOptions
-
-SceneryStack's push/round buttons default to a 3-D/beveled look; every button in the sim
-should be flat instead. Spread these into the relevant options object:
-
-```typescript
-import { FLAT_RESET_ALL_BUTTON_OPTIONS, FLAT_RECTANGULAR_BUTTON_OPTIONS } from "../../common/PrecessionButtonOptions.js";
-
-const resetAllButton = new ResetAllButton({ ...FLAT_RESET_ALL_BUTTON_OPTIONS, listener: () => {...} });
-const exampleButton = new RectangularPushButton({ ...FLAT_RECTANGULAR_BUTTON_OPTIONS, content, listener });
-```
-
-`FLAT_PLAY_PAUSE_STEP_BUTTON_OPTIONS` spreads into `TimeControlNode`'s `playPauseStepButtonOptions`;
-`TIME_CONTROL_SPEED_RADIO_OPTIONS` fixes `TimeControlNode`'s speed-radio label color, which
-otherwise defaults to black text on the sim's dark default-mode panels. `PRECESSION_COMBO_BOX_OPTIONS`
-themes a `ComboBox`'s button/list chrome to the light control surface below; pair item labels
-with `LIGHT_SURFACE_TEXT_FILL` (not `PrecessionColors.textColorProperty`, which is for panel-fill text).
-
-`PrecessionColors.ts` backs this with a "light control surfaces" section —
-`controlSurfaceColorProperty`, `controlSurfaceDisabledColorProperty`,
-`controlSurfaceTextColorProperty` — identical white/dark-text values in both default and
-projector profiles, so any component that must stay light regardless of theme (combo boxes,
-flat buttons, editable fields) keeps readable contrast automatically.
+Summary:
+- Create a new screen folder mirroring `src/steady-precession-screen/` for each screen
+- Add screen-name keys to all locale JSON files
+- Expose new `StringProperty` getters in `StringManager.getScreenNames()`
+- For shared state, create a root model passed to each per-screen model
+- Add `src/common/{SimName}ScreenIcons.ts` with `create{Screen}Icon()` factories; wire `homeScreenIcon` + `navigationBarIcon` on each Screen
+- Register all screens in the `screens` array in `main.ts`
 
 ## Accessibility
 
@@ -294,18 +308,8 @@ npm run lint && npm run check && npm run build && npm test
 | `npm run test:fuzz:quick` | 10s fuzz |
 | `npm run icons` | Regenerate PWA icons |
 
-## Multi-screen sims
+## Development notes
 
-Full guide: [SceneryStackTemplate `doc/multi-screen.md`](https://github.com/OpenLyceum/SceneryStackTemplate/blob/main/doc/multi-screen.md)
-
-Summary:
-- Create a new screen folder mirroring `src/steady-precession-screen/` for each screen
-- Add screen-name keys to all locale JSON files
-- Expose new `StringProperty` getters in `StringManager.getScreenNames()`
-- For shared state, create a root model passed to each per-screen model
-- Add `src/common/{SimName}ScreenIcons.ts` with `create{Screen}Icon()` factories; wire `homeScreenIcon` + `navigationBarIcon` on each Screen
-- Register all screens in the `screens` array in `main.ts`
-
-## PWA
+### PWA
 
 After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).
