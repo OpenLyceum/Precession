@@ -62,7 +62,13 @@
     "growthLabel": "crecimiento",
     "flipsLabel": "volteos",
     "flipPeriodLabel": "por volteo",
-    "noFlipsYet": "ninguno aún"
+    "noFlipsYet": "ninguno aún",
+    "inertiaHeading": "I₁ > I₂ > I₃  (kg·m²)",
+    "inertiaI1": "I₁",
+    "inertiaI2": "I₂",
+    "inertiaI3": "I₃",
+    "angularMomentum": "L",
+    "angularVelocity": "ω"
   },
   "a11y": {
     "steadyPrecession": {

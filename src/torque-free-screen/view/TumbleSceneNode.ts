@@ -16,13 +16,14 @@
  * rather than having to be inferred from an arrow that keeps moving.
  */
 
-import { Multilink } from "scenerystack/axon";
+import { Multilink, type TReadOnlyProperty } from "scenerystack/axon";
 import { Bounds2, toFixed, Vector2, Vector3 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { HBox, Node, Path, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { ArrowNode, PhetFont } from "scenerystack/scenery-phet";
 import { type Camera3D, createCamera, project } from "../../common/view/Camera3D.js";
 import { type BoxGeometry, TumblingBoxNode } from "../../common/view/TumblingBoxNode.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import PrecessionColors from "../../PrecessionColors.js";
 import { TUMBLE_BOX_SIZE_M, TUMBLE_SPIN_RANGE } from "../../PrecessionConstants.js";
 import type { TorqueFreeModel } from "../model/TorqueFreeModel.js";
@@ -54,11 +55,12 @@ const ARROW = { headHeight: 11, headWidth: 10, tailWidth: 3 } as const;
  * The numbers come straight from the model's inertia tensor, so they stay honest.
  */
 function createInertiaCard(model: TorqueFreeModel): Node {
+  const torqueFree = StringManager.getInstance().getTorqueFreeStrings();
   const rows: Node[] = [];
-  const entries: Array<[string, number, typeof PrecessionColors.textColorProperty]> = [
-    ["I₁", model.inertia.i1, PrecessionColors.wheelBodyColorProperty],
-    ["I₂", model.inertia.i2, PrecessionColors.torqueColorProperty],
-    ["I₃", model.inertia.i3, PrecessionColors.weightColorProperty],
+  const entries: Array<[TReadOnlyProperty<string>, number, typeof PrecessionColors.textColorProperty]> = [
+    [torqueFree.inertiaI1StringProperty, model.inertia.i1, PrecessionColors.wheelBodyColorProperty],
+    [torqueFree.inertiaI2StringProperty, model.inertia.i2, PrecessionColors.torqueColorProperty],
+    [torqueFree.inertiaI3StringProperty, model.inertia.i3, PrecessionColors.weightColorProperty],
   ];
 
   for (const [label, value, color] of entries) {
@@ -75,7 +77,7 @@ function createInertiaCard(model: TorqueFreeModel): Node {
     );
   }
 
-  const heading = new Text("I₁ > I₂ > I₃  (kg·m²)", {
+  const heading = new Text(torqueFree.inertiaHeadingStringProperty, {
     font: CARD_FONT,
     fill: PrecessionColors.accentColorProperty,
   });
@@ -101,6 +103,7 @@ export class TumbleSceneNode extends Node {
 
   public constructor(model: TorqueFreeModel) {
     super();
+    const torqueFree = StringManager.getInstance().getTorqueFreeStrings();
     this.localBounds = new Bounds2(0, 0, TUMBLE_SCENE_WIDTH, TUMBLE_SCENE_HEIGHT);
 
     const origin = project(CAMERA, Vector3.ZERO);
@@ -133,11 +136,11 @@ export class TumbleSceneNode extends Node {
       stroke: PrecessionColors.precessionColorProperty,
     });
 
-    const momentumLabel = new Text("L", {
+    const momentumLabel = new Text(torqueFree.angularMomentumStringProperty, {
       font: LABEL_FONT,
       fill: PrecessionColors.angularMomentumColorProperty,
     });
-    const omegaLabel = new Text("ω", {
+    const omegaLabel = new Text(torqueFree.angularVelocityStringProperty, {
       font: LABEL_FONT,
       fill: PrecessionColors.precessionColorProperty,
     });

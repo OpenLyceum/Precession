@@ -26,6 +26,33 @@
 import { Color, ProfileColorProperty } from "scenerystack/scenery";
 import PrecessionNamespace from "./PrecessionNamespace.js";
 
+/**
+ * Multiply a color's RGB by `factor`, preserving alpha.
+ *
+ * The 3-D scenes shade a profile color per surface. The factor is a Lambert
+ * term that can brighten past the base color, so this is not a profile of its
+ * own — it is derived here, next to the colors it starts from.
+ */
+export function shadeColor(base: Color, factor: number): Color {
+  return new Color(
+    Math.round(Math.min(255, base.red * factor)),
+    Math.round(Math.min(255, base.green * factor)),
+    Math.round(Math.min(255, base.blue * factor)),
+    base.alpha,
+  );
+}
+
+/** Blend two colors, `t` = 0 gives `from`, `t` = 1 gives `to`. */
+export function blendColor(from: Color, to: Color, t: number): Color {
+  const u = Math.max(0, Math.min(1, t));
+  return new Color(
+    Math.round(from.red + (to.red - from.red) * u),
+    Math.round(from.green + (to.green - from.green) * u),
+    Math.round(from.blue + (to.blue - from.blue) * u),
+    from.alpha + (to.alpha - from.alpha) * u,
+  );
+}
+
 const PrecessionColors = {
   /**
    * Background color for the simulation screen.

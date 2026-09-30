@@ -25,7 +25,8 @@
  */
 
 import { Vector2, Vector3 } from "scenerystack/dot";
-import { Color } from "scenerystack/scenery";
+
+export { blendColor, shadeColor } from "../../PrecessionColors.js";
 
 export type Camera3D = {
   /** Screen position of the world origin, in view pixels. */
@@ -171,25 +172,4 @@ export const TOWARD_LIGHT = LIGHT.negated();
 export function shadeFactor(normal: Vector3, ambient = 0.42): number {
   const lambert = Math.max(0, -normal.dot(LIGHT));
   return ambient + (1 - ambient) * lambert;
-}
-
-/** Multiply a color's RGB by `factor`, preserving alpha. */
-export function shadeColor(base: Color, factor: number): Color {
-  return new Color(
-    Math.round(Math.min(255, base.red * factor)),
-    Math.round(Math.min(255, base.green * factor)),
-    Math.round(Math.min(255, base.blue * factor)),
-    base.alpha,
-  );
-}
-
-/** Blend two colors, `t` = 0 gives `from`, `t` = 1 gives `to`. */
-export function blendColor(from: Color, to: Color, t: number): Color {
-  const u = Math.max(0, Math.min(1, t));
-  return new Color(
-    Math.round(from.red + (to.red - from.red) * u),
-    Math.round(from.green + (to.green - from.green) * u),
-    Math.round(from.blue + (to.blue - from.blue) * u),
-    from.alpha + (to.alpha - from.alpha) * u,
-  );
 }
