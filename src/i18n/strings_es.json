@@ -20,7 +20,20 @@
     "formulaHint": "Ω = M g l / (I₃ ω) — más giro, precesión más lenta. La inclinación se cancela.",
     "validityWarning": "Ω ya no es pequeño frente a ω, así que esta fórmula cerrada solo es aproximada aquí. Una peonza real nutaría — vea la pantalla Nutación.",
     "tiltHint": "Cambie la inclinación: Ω no varía.",
-    "spinSlowed": "Rueda dibujada a cámara lenta — vea el valor de giro"
+    "spinSlowed": "Rueda dibujada a cámara lenta — vea el valor de giro",
+    "phiAxisLabel": "φ (rad)",
+    "timeAxisLabel": "t (s)",
+    "phiLegend": "φ(t)",
+    "slopeLegend": "pendiente = Ω",
+    "angularMomentumSymbol": "L",
+    "torqueImpulseSymbol": "τΔt",
+    "weightSymbol": "mg",
+    "precessionSymbol": "Ω",
+    "tiltSymbol": "θ",
+    "torqueSymbol": "τ",
+    "angularMomentumLegend": "L = I₃ω",
+    "torqueImpulseLegend": "τΔt ⊥ L",
+    "fromAbove": "visto desde arriba"
   },
   "nutation": {
     "sceneTitle": "Trompo pesado — trayectoria de la punta del eje",
@@ -42,7 +55,11 @@
     "sleepLabel": "Si se pone vertical",
     "sleeps": "duerme",
     "topples": "se cae",
-    "sleepNote": "Baje la inclinación de suelta a su mínimo para comprobar esa predicción."
+    "sleepNote": "Baje la inclinación de suelta a su mínimo para comprobar esa predicción.",
+    "thetaAxisLabel": "θ (°)",
+    "timeAxisLabel": "t (s)",
+    "thetaLegend": "θ(t)",
+    "turningPoints": "puntos de retorno"
   },
   "torqueFree": {
     "sceneTitle": "Bloque volteando — sin par alguno",
@@ -68,7 +85,12 @@
     "inertiaI2": "I₂",
     "inertiaI3": "I₃",
     "angularMomentum": "L",
-    "angularVelocity": "ω"
+    "angularVelocity": "ω",
+    "omegaAxisLabel": "ω (rad/s)",
+    "timeAxisLabel": "t (s)",
+    "omega1Legend": "ω₁ (I máx)",
+    "omega2Legend": "ω₂ (intermedio)",
+    "omega3Legend": "ω₃ (I mín)"
   },
   "a11y": {
     "steadyPrecession": {

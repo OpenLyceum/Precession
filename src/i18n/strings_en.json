@@ -20,7 +20,20 @@
     "formulaHint": "Ω = M g l / (I₃ ω) — faster spin, slower precession. Tilt cancels out.",
     "validityWarning": "Ω is no longer small next to ω, so this closed form is only rough here. A real top would nutate — see the Nutation screen.",
     "tiltHint": "Change the tilt: Ω does not move.",
-    "spinSlowed": "Wheel drawn slowed — see the spin readout"
+    "spinSlowed": "Wheel drawn slowed — see the spin readout",
+    "phiAxisLabel": "φ (rad)",
+    "timeAxisLabel": "t (s)",
+    "phiLegend": "φ(t)",
+    "slopeLegend": "slope = Ω",
+    "angularMomentumSymbol": "L",
+    "torqueImpulseSymbol": "τΔt",
+    "weightSymbol": "mg",
+    "precessionSymbol": "Ω",
+    "tiltSymbol": "θ",
+    "torqueSymbol": "τ",
+    "angularMomentumLegend": "L = I₃ω",
+    "torqueImpulseLegend": "τΔt ⊥ L",
+    "fromAbove": "from above"
   },
   "nutation": {
     "sceneTitle": "Heavy top — path traced by the axle tip",
@@ -42,7 +55,11 @@
     "sleepLabel": "If stood upright",
     "sleeps": "sleeps",
     "topples": "topples",
-    "sleepNote": "Wind the release tilt down to its minimum to check that prediction."
+    "sleepNote": "Wind the release tilt down to its minimum to check that prediction.",
+    "thetaAxisLabel": "θ (°)",
+    "timeAxisLabel": "t (s)",
+    "thetaLegend": "θ(t)",
+    "turningPoints": "turning points"
   },
   "torqueFree": {
     "sceneTitle": "Tumbling block — no torque at all",
@@ -68,7 +85,12 @@
     "inertiaI2": "I₂",
     "inertiaI3": "I₃",
     "angularMomentum": "L",
-    "angularVelocity": "ω"
+    "angularVelocity": "ω",
+    "omegaAxisLabel": "ω (rad/s)",
+    "timeAxisLabel": "t (s)",
+    "omega1Legend": "ω₁ (max I)",
+    "omega2Legend": "ω₂ (intermediate)",
+    "omega3Legend": "ω₃ (min I)"
   },
   "a11y": {
     "steadyPrecession": {

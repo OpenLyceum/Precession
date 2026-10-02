@@ -22,6 +22,7 @@ import { Orientation } from "scenerystack/phet-core";
 import { HBox, Node, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { calculateTickSpacing } from "../../common/view/BambooChartUtils.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import PrecessionColors from "../../PrecessionColors.js";
 import { NUTATION_GRAPH_HEIGHT, NUTATION_GRAPH_WINDOW_S } from "../../PrecessionConstants.js";
 import type { NutationModel } from "../model/NutationModel.js";
@@ -64,6 +65,7 @@ export class NutationAngleGraphNode extends Node {
   public constructor(model: NutationModel, width = 360) {
     super();
     this.model = model;
+    const nutationStrings = StringManager.getInstance().getNutationStrings();
 
     this.localBounds = new Bounds2(0, 0, width + Y_AXIS_GUTTER, CHART_HEIGHT + X_AXIS_GUTTER);
 
@@ -162,7 +164,7 @@ export class NutationAngleGraphNode extends Node {
     this.addChild(chartNode);
 
     this.addChild(
-      new Text("θ (°)", {
+      new Text(nutationStrings.thetaAxisLabelStringProperty, {
         font: AXIS_FONT,
         fill: PrecessionColors.textColorProperty,
         rotation: -Math.PI / 2,
@@ -172,7 +174,7 @@ export class NutationAngleGraphNode extends Node {
       }),
     );
     this.addChild(
-      new Text("t (s)", {
+      new Text(nutationStrings.timeAxisLabelStringProperty, {
         font: AXIS_FONT,
         fill: PrecessionColors.textColorProperty,
         centerX: Y_AXIS_GUTTER + width / 2,
@@ -190,7 +192,10 @@ export class NutationAngleGraphNode extends Node {
             align: "center",
             children: [
               legendSwatch(PrecessionColors.tipTraceColorProperty),
-              new Text("θ(t)", { font: LEGEND_FONT, fill: PrecessionColors.textColorProperty }),
+              new Text(nutationStrings.thetaLegendStringProperty, {
+                font: LEGEND_FONT,
+                fill: PrecessionColors.textColorProperty,
+              }),
             ],
           }),
           new HBox({
@@ -198,7 +203,7 @@ export class NutationAngleGraphNode extends Node {
             align: "center",
             children: [
               legendSwatch(PrecessionColors.nutationBandColorProperty, true),
-              new Text("turning points", {
+              new Text(nutationStrings.turningPointsStringProperty, {
                 font: LEGEND_FONT,
                 fill: PrecessionColors.textColorProperty,
               }),

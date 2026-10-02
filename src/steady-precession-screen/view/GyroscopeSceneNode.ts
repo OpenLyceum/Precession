@@ -102,6 +102,7 @@ export class GyroscopeSceneNode extends Node {
 
   public constructor(model: SteadyPrecessionModel) {
     super();
+    const strings = StringManager.getInstance().getSteadyPrecessionStrings();
     this.localBounds = new Bounds2(0, 0, GYROSCOPE_SCENE_WIDTH, GYROSCOPE_SCENE_HEIGHT);
 
     const stage = new GyroStageNode(CAMERA, {
@@ -136,7 +137,10 @@ export class GyroscopeSceneNode extends Node {
       lineWidth: 1.2,
       opacity: 0.7,
     });
-    const tiltLabel = new Text("θ", { font: LABEL_FONT, fill: PrecessionColors.textColorProperty });
+    const tiltLabel = new Text(strings.tiltSymbolStringProperty, {
+      font: LABEL_FONT,
+      fill: PrecessionColors.textColorProperty,
+    });
 
     const wheel = new SpinningWheelNode(CAMERA, WHEEL_GEOMETRY, this.palette(), { groundZ: -STAND_HEIGHT_M });
 
@@ -183,13 +187,19 @@ export class GyroscopeSceneNode extends Node {
       stroke: PrecessionColors.precessionColorProperty,
     });
 
-    const momentumLabel = new Text("L", {
+    const momentumLabel = new Text(strings.angularMomentumSymbolStringProperty, {
       font: LABEL_FONT,
       fill: PrecessionColors.angularMomentumColorProperty,
     });
-    const weightLabel = new Text("mg", { font: LABEL_FONT, fill: PrecessionColors.weightColorProperty });
-    const torqueLabel = new Text("τ", { font: LABEL_FONT, fill: PrecessionColors.torqueColorProperty });
-    const precessionLabel = new Text("Ω", {
+    const weightLabel = new Text(strings.weightSymbolStringProperty, {
+      font: LABEL_FONT,
+      fill: PrecessionColors.weightColorProperty,
+    });
+    const torqueLabel = new Text(strings.torqueSymbolStringProperty, {
+      font: LABEL_FONT,
+      fill: PrecessionColors.torqueColorProperty,
+    });
+    const precessionLabel = new Text(strings.precessionSymbolStringProperty, {
       font: LABEL_FONT,
       fill: PrecessionColors.precessionColorProperty,
     });
@@ -462,7 +472,7 @@ export class GyroscopeSceneNode extends Node {
       opacity: 0.5,
     });
     const dot = new Circle(4, { fill: PrecessionColors.precessionColorProperty });
-    const label = new Text("from above", {
+    const label = new Text(StringManager.getInstance().getSteadyPrecessionStrings().fromAboveStringProperty, {
       font: SMALL_FONT,
       fill: PrecessionColors.textColorProperty,
       centerX: center.x,

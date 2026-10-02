@@ -14,7 +14,7 @@
  * around the vertical. The tip has nowhere to go but sideways.
  */
 
-import { Multilink } from "scenerystack/axon";
+import { Multilink, type TReadOnlyProperty } from "scenerystack/axon";
 import { Bounds2, Vector2, Vector3 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { Circle, Line, Node, Path, RichText, Text, VBox } from "scenerystack/scenery";
@@ -52,7 +52,7 @@ const LEGEND_FONT = new PhetFont({ size: 10 });
 const INSIGHT_FONT = new PhetFont({ size: 11 });
 const ARROW = { headHeight: 9, headWidth: 9, tailWidth: 2.5 } as const;
 
-function legendRow(color: typeof PrecessionColors.weightColorProperty, label: string): Node {
+function legendRow(color: typeof PrecessionColors.weightColorProperty, label: TReadOnlyProperty<string>): Node {
   return new Node({
     children: [
       new Line(0, 0, 13, 0, { stroke: color, lineWidth: 3, centerY: 0 }),
@@ -134,16 +134,19 @@ export class VectorDiagramNode extends Node {
       opacity: 0.6,
     });
 
-    const momentumLabel = new Text("L", {
+    const momentumLabel = new Text(strings.angularMomentumSymbolStringProperty, {
       font: LABEL_FONT,
       fill: PrecessionColors.angularMomentumColorProperty,
     });
-    const deltaLabel = new Text("τΔt", {
+    const deltaLabel = new Text(strings.torqueImpulseSymbolStringProperty, {
       font: SMALL_LABEL_FONT,
       fill: PrecessionColors.torqueColorProperty,
     });
-    const weightLabel = new Text("mg", { font: LABEL_FONT, fill: PrecessionColors.weightColorProperty });
-    const precessionLabel = new Text("Ω", {
+    const weightLabel = new Text(strings.weightSymbolStringProperty, {
+      font: LABEL_FONT,
+      fill: PrecessionColors.weightColorProperty,
+    });
+    const precessionLabel = new Text(strings.precessionSymbolStringProperty, {
       font: LABEL_FONT,
       fill: PrecessionColors.precessionColorProperty,
     });
@@ -164,10 +167,10 @@ export class VectorDiagramNode extends Node {
       spacing: 3,
       align: "left",
       children: [
-        legendRow(PrecessionColors.angularMomentumColorProperty, "L = I₃ω"),
-        legendRow(PrecessionColors.torqueColorProperty, "τΔt ⊥ L"),
-        legendRow(PrecessionColors.weightColorProperty, "mg"),
-        legendRow(PrecessionColors.precessionColorProperty, "Ω"),
+        legendRow(PrecessionColors.angularMomentumColorProperty, strings.angularMomentumLegendStringProperty),
+        legendRow(PrecessionColors.torqueColorProperty, strings.torqueImpulseLegendStringProperty),
+        legendRow(PrecessionColors.weightColorProperty, strings.weightSymbolStringProperty),
+        legendRow(PrecessionColors.precessionColorProperty, strings.precessionSymbolStringProperty),
       ],
       left: 6,
       bottom: VECTOR_DIAGRAM_HEIGHT - 4,

@@ -11,7 +11,7 @@
  * where the block looks like it is spinning normally.
  */
 
-import { Multilink } from "scenerystack/axon";
+import { Multilink, type TReadOnlyProperty } from "scenerystack/axon";
 import { ChartRectangle, ChartTransform, GridLineSet, LinePlot, TickLabelSet, TickMarkSet } from "scenerystack/bamboo";
 import { Bounds2, Range, toFixed, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
@@ -19,6 +19,7 @@ import { Orientation } from "scenerystack/phet-core";
 import { HBox, Line, Node, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { calculateTickSpacing } from "../../common/view/BambooChartUtils.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import PrecessionColors from "../../PrecessionColors.js";
 import { TUMBLE_GRAPH_HEIGHT, TUMBLE_GRAPH_WINDOW_S, TUMBLE_SPIN_RANGE } from "../../PrecessionConstants.js";
 import type { TorqueFreeModel } from "../model/TorqueFreeModel.js";
@@ -32,7 +33,7 @@ const LEGEND_FONT = new PhetFont({ size: 10 });
 const TICK_LABEL_FONT = new PhetFont({ size: 10 });
 const TICK_EXTENT = 6;
 
-function legendEntry(color: typeof PrecessionColors.textColorProperty, label: string): Node {
+function legendEntry(color: typeof PrecessionColors.textColorProperty, label: TReadOnlyProperty<string>): Node {
   return new HBox({
     spacing: 4,
     align: "center",
@@ -57,6 +58,7 @@ export class OmegaGraphNode extends Node {
   public constructor(model: TorqueFreeModel, width = 560) {
     super();
     this.model = model;
+    const torqueFreeStrings = StringManager.getInstance().getTorqueFreeStrings();
     this.localBounds = new Bounds2(0, 0, width + Y_AXIS_GUTTER, TUMBLE_GRAPH_HEIGHT + X_AXIS_GUTTER);
 
     this.chartTransform = new ChartTransform({
@@ -139,7 +141,7 @@ export class OmegaGraphNode extends Node {
     );
 
     this.addChild(
-      new Text("ω (rad/s)", {
+      new Text(torqueFreeStrings.omegaAxisLabelStringProperty, {
         font: AXIS_FONT,
         fill: PrecessionColors.textColorProperty,
         rotation: -Math.PI / 2,
@@ -148,7 +150,7 @@ export class OmegaGraphNode extends Node {
       }),
     );
     this.addChild(
-      new Text("t (s)", {
+      new Text(torqueFreeStrings.timeAxisLabelStringProperty, {
         font: AXIS_FONT,
         fill: PrecessionColors.textColorProperty,
         centerX: Y_AXIS_GUTTER + width / 2,
@@ -161,9 +163,9 @@ export class OmegaGraphNode extends Node {
         spacing: 12,
         align: "center",
         children: [
-          legendEntry(PrecessionColors.wheelBodyColorProperty, "ω₁ (max I)"),
-          legendEntry(PrecessionColors.torqueColorProperty, "ω₂ (intermediate)"),
-          legendEntry(PrecessionColors.weightColorProperty, "ω₃ (min I)"),
+          legendEntry(PrecessionColors.wheelBodyColorProperty, torqueFreeStrings.omega1LegendStringProperty),
+          legendEntry(PrecessionColors.torqueColorProperty, torqueFreeStrings.omega2LegendStringProperty),
+          legendEntry(PrecessionColors.weightColorProperty, torqueFreeStrings.omega3LegendStringProperty),
         ],
         // Its own row under the axis title: three entries do not fit beside it.
         centerX: Y_AXIS_GUTTER + width / 2,

@@ -21,6 +21,7 @@ import { Orientation } from "scenerystack/phet-core";
 import { HBox, Node, Rectangle, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { calculateTickSpacing, tickDecimalsFor } from "../../common/view/BambooChartUtils.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import PrecessionColors from "../../PrecessionColors.js";
 import { PRECESSION_GRAPH_HEIGHT } from "../../PrecessionConstants.js";
 import type { SteadyPrecessionModel } from "../model/SteadyPrecessionModel.js";
@@ -70,6 +71,7 @@ export class PrecessionAngleGraphNode extends Node {
   public constructor(model: SteadyPrecessionModel, width = 360) {
     super();
     this.model = model;
+    const strings = StringManager.getInstance().getSteadyPrecessionStrings();
 
     this.localBounds = new Bounds2(0, 0, width + Y_AXIS_GUTTER, CHART_HEIGHT + X_AXIS_GUTTER);
 
@@ -158,7 +160,7 @@ export class PrecessionAngleGraphNode extends Node {
     });
     this.addChild(chartNode);
 
-    const yTitle = new Text("φ (rad)", {
+    const yTitle = new Text(strings.phiAxisLabelStringProperty, {
       font: AXIS_FONT,
       fill: PrecessionColors.textColorProperty,
       rotation: -Math.PI / 2,
@@ -166,7 +168,7 @@ export class PrecessionAngleGraphNode extends Node {
       // Outside the tick labels, which hang off the chart's left edge.
       right: Y_AXIS_GUTTER - 26,
     });
-    const xTitle = new Text("t (s)", {
+    const xTitle = new Text(strings.timeAxisLabelStringProperty, {
       font: AXIS_FONT,
       fill: PrecessionColors.textColorProperty,
       centerX: Y_AXIS_GUTTER + width / 2,
@@ -184,7 +186,7 @@ export class PrecessionAngleGraphNode extends Node {
           align: "center",
           children: [
             legendSwatch(PrecessionColors.graphTraceColorProperty),
-            new Text("φ(t)", { font: LEGEND_FONT, fill: PrecessionColors.textColorProperty }),
+            new Text(strings.phiLegendStringProperty, { font: LEGEND_FONT, fill: PrecessionColors.textColorProperty }),
           ],
         }),
         new HBox({
@@ -192,7 +194,10 @@ export class PrecessionAngleGraphNode extends Node {
           align: "center",
           children: [
             legendSwatch(PrecessionColors.precessionColorProperty, true),
-            new Text("slope = Ω", { font: LEGEND_FONT, fill: PrecessionColors.textColorProperty }),
+            new Text(strings.slopeLegendStringProperty, {
+              font: LEGEND_FONT,
+              fill: PrecessionColors.textColorProperty,
+            }),
           ],
         }),
       ],

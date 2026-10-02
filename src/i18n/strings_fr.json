@@ -20,7 +20,20 @@
     "formulaHint": "Ω = M g l / (I₃ ω) — rotation plus rapide, précession plus lente. L'inclinaison s'annule.",
     "validityWarning": "Ω n'est plus petit devant ω : cette formule fermée n'est qu'approximative ici. Une vraie toupie nuterait — voir l'écran Nutation.",
     "tiltHint": "Changez l'inclinaison : Ω ne bouge pas.",
-    "spinSlowed": "Roue dessinée au ralenti — voir la valeur de rotation"
+    "spinSlowed": "Roue dessinée au ralenti — voir la valeur de rotation",
+    "phiAxisLabel": "φ (rad)",
+    "timeAxisLabel": "t (s)",
+    "phiLegend": "φ(t)",
+    "slopeLegend": "pente = Ω",
+    "angularMomentumSymbol": "L",
+    "torqueImpulseSymbol": "τΔt",
+    "weightSymbol": "mg",
+    "precessionSymbol": "Ω",
+    "tiltSymbol": "θ",
+    "torqueSymbol": "τ",
+    "angularMomentumLegend": "L = I₃ω",
+    "torqueImpulseLegend": "τΔt ⊥ L",
+    "fromAbove": "vu de dessus"
   },
   "nutation": {
     "sceneTitle": "Toupie pesante — trajectoire du bout de l'axe",
@@ -42,7 +55,11 @@
     "sleepLabel": "Dressée à la verticale",
     "sleeps": "dort",
     "topples": "bascule",
-    "sleepNote": "Ramenez l'inclinaison au lâcher à son minimum pour vérifier cette prédiction."
+    "sleepNote": "Ramenez l'inclinaison au lâcher à son minimum pour vérifier cette prédiction.",
+    "thetaAxisLabel": "θ (°)",
+    "timeAxisLabel": "t (s)",
+    "thetaLegend": "θ(t)",
+    "turningPoints": "points de rebroussement"
   },
   "torqueFree": {
     "sceneTitle": "Bloc en culbute — aucun couple",
@@ -68,7 +85,12 @@
     "inertiaI2": "I₂",
     "inertiaI3": "I₃",
     "angularMomentum": "L",
-    "angularVelocity": "ω"
+    "angularVelocity": "ω",
+    "omegaAxisLabel": "ω (rad/s)",
+    "timeAxisLabel": "t (s)",
+    "omega1Legend": "ω₁ (I max)",
+    "omega2Legend": "ω₂ (intermédiaire)",
+    "omega3Legend": "ω₃ (I min)"
   },
   "a11y": {
     "steadyPrecession": {
