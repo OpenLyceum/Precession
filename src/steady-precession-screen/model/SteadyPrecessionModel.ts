@@ -60,7 +60,7 @@ export class SteadyPrecessionModel implements TModel {
   public readonly actualSpinRateProperty = new NumberProperty(DEFAULT_SPIN_RATE_RAD_S);
 
   public readonly predictedPrecessionRateProperty;
-  public readonly measuredPrecessionRateProperty;
+  public readonly measuredPrecessionRateProperty = new NumberProperty(0);
   public readonly torqueReadoutProperty;
   public readonly precessionComparisonProperty;
   /** Ω/ω — how far the fast-top idealization is being pushed. */
@@ -91,10 +91,6 @@ export class SteadyPrecessionModel implements TModel {
     this.idealizationValidProperty = new DerivedProperty(
       [this.gyroscopicRatioProperty],
       (ratio) => ratio <= GYROSCOPIC_RATIO_LIMIT,
-    );
-
-    this.measuredPrecessionRateProperty = new DerivedProperty([this.precessionAngleProperty], () =>
-      this.dataSeries.estimateSlope(),
     );
 
     this.torqueReadoutProperty = new DerivedProperty(
@@ -180,6 +176,7 @@ export class SteadyPrecessionModel implements TModel {
     if (this.sampleAccumulator >= 1 / 30) {
       this.dataSeries.push(this.timer.timeProperty.value, this.precessionAngleProperty.value);
       this.sampleAccumulator = 0;
+      this.measuredPrecessionRateProperty.value = this.dataSeries.estimateSlope();
     }
   }
 
@@ -195,6 +192,7 @@ export class SteadyPrecessionModel implements TModel {
     this.spinAngleProperty.reset();
     this.actualSpinRateProperty.reset();
     this.dataSeries.clear();
+    this.measuredPrecessionRateProperty.value = 0;
     this.sampleAccumulator = 0;
   }
 

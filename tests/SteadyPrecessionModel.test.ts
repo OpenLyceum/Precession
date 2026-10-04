@@ -94,6 +94,17 @@ describe("SteadyPrecessionModel", () => {
     slow.dispose();
   });
 
+  it("updates the measured rate with the fourth sample and clears it on reset", () => {
+    const model = new SteadyPrecessionModel();
+    for (let i = 0; i < 4; i++) {
+      model.stepOnce(1 / 30);
+    }
+    expect(model.measuredPrecessionRateProperty.value).toBeCloseTo(model.predictedPrecessionRateProperty.value, 8);
+    model.reset();
+    expect(model.measuredPrecessionRateProperty.value).toBe(0);
+    model.dispose();
+  });
+
   it("reset restores initial state", () => {
     const model = new SteadyPrecessionModel();
     for (let i = 0; i < 120; i++) {

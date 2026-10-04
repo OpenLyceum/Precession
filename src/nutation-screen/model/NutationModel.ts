@@ -80,7 +80,7 @@ export class NutationModel implements TModel {
   /** [θ_min, θ_max] band the axis is confined to, from the current invariants. */
   public readonly nutationBandProperty;
   /** Mean precession rate measured from the tip trace (rad/s). */
-  public readonly meanPrecessionRateProperty;
+  public readonly meanPrecessionRateProperty = new NumberProperty(0);
   /** Nutation frequency I₃ω₃/I₁ (rad/s). */
   public readonly nutationFrequencyProperty;
   /** Minimum spin for steady precession at the current tilt (rad/s). */
@@ -110,10 +110,6 @@ export class NutationModel implements TModel {
     this.nutationBandProperty = new DerivedProperty(
       [this.thetaProperty, this.thetaDotProperty, this.phiDotProperty, this.spinProperty],
       (): NutationBand => nutationTurningPoints(this.getParameters(), this.getState()),
-    );
-
-    this.meanPrecessionRateProperty = new DerivedProperty([this.phiProperty], () =>
-      this.trace.estimateMeanPrecessionRate(),
     );
 
     this.nutationFrequencyProperty = new DerivedProperty([this.spinProperty], (spin) =>
@@ -205,6 +201,7 @@ export class NutationModel implements TModel {
     this.spinProperty.value = state.spin;
 
     this.trace.clear();
+    this.meanPrecessionRateProperty.value = 0;
     this.sampleAccumulator = 0;
     this.timer.timeProperty.value = 0;
   }
@@ -230,11 +227,12 @@ export class NutationModel implements TModel {
     this.phiDotProperty.value = next.phiDot;
     this.psiProperty.value = next.psi;
     this.spinProperty.value = next.spin;
-    // Set φ last: the mean-precession readout derives from it and reads the trace.
+    // Update the measured rate after adding the latest trace sample.
     this.sampleAccumulator += dt;
     if (this.sampleAccumulator >= NUTATION_SAMPLE_INTERVAL_S) {
       this.trace.push(this.timer.timeProperty.value, next.theta, next.phi);
       this.sampleAccumulator = 0;
+      this.meanPrecessionRateProperty.value = this.trace.estimateMeanPrecessionRate();
     }
     this.phiProperty.value = next.phi;
   }

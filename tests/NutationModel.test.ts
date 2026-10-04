@@ -34,6 +34,17 @@ describe("NutationModel — sleeping top", () => {
     return model;
   }
 
+  it("clears the measured precession rate on release", () => {
+    const model = new NutationModel();
+    for (let i = 0; i < 120; i++) {
+      model.stepOnce(1 / 30);
+    }
+    expect(model.meanPrecessionRateProperty.value).toBeGreaterThan(0);
+    model.release();
+    expect(model.meanPrecessionRateProperty.value).toBe(0);
+    model.dispose();
+  });
+
   it("reaches a near-vertical release tilt", () => {
     // Small enough to be an upright top, but off the Euler-angle singularity.
     expect(NUTATION_TILT_RANGE.min).toBeGreaterThan(0);
