@@ -55,7 +55,7 @@ export type SteadyPrecessionVectors = {
 const MIN_SPIN_RATE = 1e-3;
 const MIN_CENTER_OF_MASS_DISTANCE = 1e-6;
 
-export function totalMass(parameters: SteadyPrecessionParameters): number {
+function totalMass(parameters: SteadyPrecessionParameters): number {
   return parameters.diskMass + parameters.armMass;
 }
 
@@ -92,7 +92,7 @@ export function torqueMagnitude(parameters: SteadyPrecessionParameters): number 
   return totalMass(parameters) * parameters.gravity * leverArm * Math.sin(parameters.tiltAngle);
 }
 
-export function angularMomentumMagnitude(parameters: SteadyPrecessionParameters): number {
+function angularMomentumMagnitude(parameters: SteadyPrecessionParameters): number {
   return spinAxisInertia(parameters) * Math.abs(parameters.spinRate);
 }
 
@@ -151,7 +151,7 @@ export function steadyPrecessionVectors(parameters: SteadyPrecessionParameters):
 /**
  * First-order spin-up toward the target rate. Returns the updated spin rate.
  */
-export function advanceSpinRate(
+function advanceSpinRate(
   currentSpinRate: number,
   targetSpinRate: number,
   dt: number,

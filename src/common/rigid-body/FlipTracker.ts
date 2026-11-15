@@ -35,8 +35,6 @@ export type FlipStatistics = {
   readonly meanInterval: number;
 };
 
-export const NO_FLIPS: FlipStatistics = { count: 0, lastInterval: 0, meanInterval: 0 };
-
 export class FlipTracker {
   /** Last confirmed side of the hysteresis band; 0 before either side is reached. */
   private confirmedSign: -1 | 0 | 1 = 0;

@@ -45,8 +45,8 @@ import {
 } from "../../PrecessionConstants.js";
 import type { SteadyPrecessionModel } from "../model/SteadyPrecessionModel.js";
 
-export const GYROSCOPE_SCENE_WIDTH = 400;
-export const GYROSCOPE_SCENE_HEIGHT = 262;
+const GYROSCOPE_SCENE_WIDTH = 400;
+const GYROSCOPE_SCENE_HEIGHT = 262;
 
 // Framed so that nothing clips at the extremes of the tilt and distance sliders:
 // the rod tip at the shallowest tilt sets the top, the floor disc sets the bottom.

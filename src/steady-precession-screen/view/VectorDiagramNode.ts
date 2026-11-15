@@ -31,8 +31,8 @@ import { StringManager } from "../../i18n/StringManager.js";
 import PrecessionColors from "../../PrecessionColors.js";
 import type { SteadyPrecessionModel } from "../model/SteadyPrecessionModel.js";
 
-export const VECTOR_DIAGRAM_WIDTH = 182;
-export const VECTOR_DIAGRAM_HEIGHT = 262;
+const VECTOR_DIAGRAM_WIDTH = 182;
+const VECTOR_DIAGRAM_HEIGHT = 262;
 
 /** Lengths are in units of |L|, so the camera's "meter" is one angular momentum. */
 const CAMERA: Camera3D = createCamera(new Vector2(91, 172), 76, 20);

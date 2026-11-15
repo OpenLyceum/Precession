@@ -18,7 +18,7 @@
  * Fastest apparent spin the renderer will draw (rad/s). One turn per ~3 s: slow
  * enough that the four-fold rim pattern never aliases at 60 fps.
  */
-export const MAX_LEGIBLE_SPIN_RAD_S = 2.2;
+const MAX_LEGIBLE_SPIN_RAD_S = 2.2;
 
 /** Spin ratio above the cap at which the markings are fully washed out. */
 const FULL_BLUR_RATIO = 10;

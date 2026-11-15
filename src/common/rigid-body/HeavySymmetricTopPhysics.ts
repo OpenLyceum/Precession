@@ -157,26 +157,6 @@ export function totalEnergy(parameters: HeavyTopParameters, state: HeavyTopState
 }
 
 /**
- * Effective one-dimensional potential governing θ, obtained by eliminating φ̇ and ψ̇
- * through the conserved momenta:
- *
- *   V_eff(θ) = (p_φ − p_ψ cos θ)² / (2 I₁ sin²θ) + M g l cos θ
- */
-export function effectivePotential(
-  parameters: HeavyTopParameters,
-  verticalMomentum: number,
-  spinMomentum: number,
-  theta: number,
-): number {
-  const sinTheta = Math.max(Math.abs(Math.sin(theta)), MIN_SIN_THETA);
-  const numerator = verticalMomentum - spinMomentum * Math.cos(theta);
-  return (
-    (numerator * numerator) / (2 * parameters.transverseInertia * sinTheta * sinTheta) +
-    gravityTorqueCoefficient(parameters) * Math.cos(theta)
-  );
-}
-
-/**
  * The two steady-precession rates at a fixed tilt, from the θ̈ = 0 condition
  *
  *   I₁ cos θ Ω² − I₃ ω₃ Ω + M g l = 0
@@ -354,11 +334,8 @@ type Derivatives = {
   readonly spin: number;
 };
 
-/**
- * Time derivatives of the full state from the Euler-Lagrange equations above.
- * Exported for testing; {@link stepHeavyTop} is the integration entry point.
- */
-export function heavyTopDerivatives(parameters: HeavyTopParameters, state: HeavyTopState): Derivatives {
+/** Time derivatives of the full state from the Euler-Lagrange equations above. */
+function heavyTopDerivatives(parameters: HeavyTopParameters, state: HeavyTopState): Derivatives {
   const { transverseInertia: inertia1, spinInertia: inertia3 } = parameters;
   const mgl = gravityTorqueCoefficient(parameters);
 
@@ -425,7 +402,7 @@ function rungeKutta4(parameters: HeavyTopParameters, state: HeavyTopState, dt: n
 }
 
 /** The tilt at which the axle rests against its mount, defaulting to no mechanical stop. */
-export function maximumTilt(parameters: HeavyTopParameters): number {
+function maximumTilt(parameters: HeavyTopParameters): number {
   return Math.min(MAX_THETA, parameters.maxTilt ?? MAX_THETA);
 }
 

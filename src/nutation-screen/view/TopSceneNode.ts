@@ -44,8 +44,8 @@ import {
 import type { NutationModel } from "../model/NutationModel.js";
 import { TIP_RADIUS_M } from "./TipPathViewNode.js";
 
-export const TOP_SCENE_WIDTH = 390;
-export const TOP_SCENE_HEIGHT = 300;
+const TOP_SCENE_WIDTH = 390;
+const TOP_SCENE_HEIGHT = 300;
 
 const CAMERA: Camera3D = createCamera(new Vector2(195, 154), 188, 22);
 

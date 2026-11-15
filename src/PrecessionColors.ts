@@ -42,17 +42,6 @@ export function shadeColor(base: Color, factor: number): Color {
   );
 }
 
-/** Blend two colors, `t` = 0 gives `from`, `t` = 1 gives `to`. */
-export function blendColor(from: Color, to: Color, t: number): Color {
-  const u = Math.max(0, Math.min(1, t));
-  return new Color(
-    Math.round(from.red + (to.red - from.red) * u),
-    Math.round(from.green + (to.green - from.green) * u),
-    Math.round(from.blue + (to.blue - from.blue) * u),
-    from.alpha + (to.alpha - from.alpha) * u,
-  );
-}
-
 const PrecessionColors = {
   /**
    * Background color for the simulation screen.

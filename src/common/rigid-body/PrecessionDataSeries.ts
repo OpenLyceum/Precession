@@ -4,11 +4,6 @@
  * Fixed-length circular buffer for plotting precession angle vs. time.
  */
 
-export type PrecessionSample = {
-  readonly time: number;
-  readonly precessionAngle: number;
-};
-
 export class PrecessionDataSeries {
   private readonly capacity: number;
   private readonly times: Float64Array;

@@ -265,6 +265,12 @@ sentence at 11 px ends up illegible; `lineWrap` wraps it instead.
 
 ## Development notes
 
+### Preferences
+
+No sim-specific preferences stubs. Framework Preferences (projector mode, locale) live in
+`main.ts` via `PreferencesModel`. Introduce `src/preferences/` only when a Simulation tab
+is needed.
+
 ### PWA
 
 After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).

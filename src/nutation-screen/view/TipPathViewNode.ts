@@ -19,8 +19,8 @@ import PrecessionColors from "../../PrecessionColors.js";
 import { NUTATION_MAX_TILT_RAD, NUTATION_TRACE_DRAW_SAMPLES } from "../../PrecessionConstants.js";
 import type { NutationModel } from "../model/NutationModel.js";
 
-export const TIP_PATH_VIEW_WIDTH = 215;
-export const TIP_PATH_VIEW_HEIGHT = 300;
+const TIP_PATH_VIEW_WIDTH = 215;
+const TIP_PATH_VIEW_HEIGHT = 300;
 
 /** Radius of the sphere the tip moves on, matching the drawn axle in the 3-D scene. */
 export const TIP_RADIUS_M = 0.78;

@@ -26,7 +26,7 @@
 
 import { Vector2, Vector3 } from "scenerystack/dot";
 
-export { blendColor, shadeColor } from "../../PrecessionColors.js";
+export { shadeColor } from "../../PrecessionColors.js";
 
 export type Camera3D = {
   /** Screen position of the world origin, in view pixels. */
@@ -160,7 +160,7 @@ export function axisFrame(theta: number, phi: number): { e1: Vector3; e2: Vector
  * Key light direction — the direction light travels *toward*. Up-and-left-and-front,
  * the convention that makes a shaded solid read correctly to most viewers.
  */
-export const LIGHT = new Vector3(-0.45, -0.55, -0.7).normalized();
+const LIGHT = new Vector3(-0.45, -0.55, -0.7).normalized();
 
 /** Unit vector pointing back toward the key light — the brightest surface normal. */
 export const TOWARD_LIGHT = LIGHT.negated();

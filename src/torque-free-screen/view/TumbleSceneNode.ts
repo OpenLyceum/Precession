@@ -29,7 +29,7 @@ import { TUMBLE_BOX_SIZE_M, TUMBLE_SPIN_RANGE } from "../../PrecessionConstants.
 import type { TorqueFreeModel } from "../model/TorqueFreeModel.js";
 
 export const TUMBLE_SCENE_WIDTH = 600;
-export const TUMBLE_SCENE_HEIGHT = 290;
+const TUMBLE_SCENE_HEIGHT = 290;
 
 const CAMERA: Camera3D = createCamera(new Vector2(TUMBLE_SCENE_WIDTH / 2 - 40, TUMBLE_SCENE_HEIGHT / 2 + 4), 300, 20);
 

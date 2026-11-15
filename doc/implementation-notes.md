@@ -21,6 +21,10 @@ src/common/
   └─ TimeModel.ts
 ```
 
+There is no `src/preferences/` folder: the sim uses only framework Preferences
+(projector mode, locale) wired in `main.ts`. Add sim-specific preference files when
+a Simulation tab is actually needed.
+
 New screens should copy `src/steady-precession-screen/`.
 
 ## Screens

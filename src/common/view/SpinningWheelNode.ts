@@ -30,7 +30,6 @@ import {
   project,
   projectCircle,
   projectDirection,
-  projectHorizontalCircle,
   shadeColor,
   shadeFactor,
   symmetryAxis,
@@ -331,11 +330,4 @@ function quadrantShape(circle: { center: Vector2; a: Vector2; b: Vector2 }, psi:
     shape.close();
   }
   return shape;
-}
-
-/**
- * Ground ellipse at height z — the floor the scenes draw the apparatus standing on.
- */
-export function groundEllipse(camera: Camera3D, z: number, radius: number): Shape {
-  return Shape.polygon(circleArcPoints(projectHorizontalCircle(camera, z, radius), 0, 2 * Math.PI, 48));
 }
