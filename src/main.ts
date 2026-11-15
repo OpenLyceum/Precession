@@ -24,11 +24,16 @@ import { Tandem } from "scenerystack/tandem";
 import { StringManager } from "./i18n/StringManager.js";
 import { NutationScreen } from "./nutation-screen/NutationScreen.js";
 import PrecessionColors from "./PrecessionColors.js";
+import { PrecessionPreferencesModel } from "./preferences/PrecessionPreferencesModel.js";
+import { PrecessionPreferencesNode } from "./preferences/PrecessionPreferencesNode.js";
 import { SteadyPrecessionScreen } from "./steady-precession-screen/SteadyPrecessionScreen.js";
 import { TorqueFreeScreen } from "./torque-free-screen/TorqueFreeScreen.js";
 
 onReadyToLaunch(() => {
   const stringManager = StringManager.getInstance();
+
+  // Simulation-specific preferences (wire query-parameter defaults when any are added).
+  const simPreferences = new PrecessionPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
   const screens = [
     new SteadyPrecessionScreen({
@@ -52,6 +57,13 @@ onReadyToLaunch(() => {
         supportsProjectorMode: true,
         // Enables keyboard-navigation highlight outlines
         supportsInteractiveHighlights: true,
+      },
+      simulationOptions: {
+        customPreferences: [
+          {
+            createContent: (tandem: Tandem) => new PrecessionPreferencesNode(simPreferences, tandem),
+          },
+        ],
       },
       localizationOptions: {
         // Adds a language picker in Preferences → Language
