@@ -126,12 +126,18 @@ const TURNING_POINT_ITERATIONS = 60;
 
 const TWO_PI = 2 * Math.PI;
 
-/** M g l — the gravitational torque coefficient (N·m). */
+/**
+ * M g l — the gravitational torque coefficient (N·m).
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function gravityTorqueCoefficient(parameters: HeavyTopParameters): number {
   return parameters.mass * parameters.gravity * parameters.comDistance;
 }
 
-/** p_ψ = I₃ ω₃ — angular momentum about the symmetry axis (kg·m²/s). */
+/**
+ * p_ψ = I₃ ω₃ — angular momentum about the symmetry axis (kg·m²/s).
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function spinAngularMomentum(parameters: HeavyTopParameters, state: HeavyTopState): number {
   return parameters.spinInertia * state.spin;
 }

@@ -59,6 +59,7 @@ function totalMass(parameters: SteadyPrecessionParameters): number {
   return parameters.diskMass + parameters.armMass;
 }
 
+/** @internal Exported for unit tests; not part of the application API. */
 export function centerOfMassDistance(parameters: SteadyPrecessionParameters): number {
   if (parameters.pivotAtCenterOfMass) {
     return 0;
@@ -79,6 +80,7 @@ export function centerOfMassDistance(parameters: SteadyPrecessionParameters): nu
  * nothing here — sliding it outward changes the torque, not the spin inertia. (It
  * does add M l² about the transverse axis, but that inertia plays no part in
  * steady precession.)
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function spinAxisInertia(parameters: SteadyPrecessionParameters): number {
   return parameters.diskInertia;

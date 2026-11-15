@@ -23,6 +23,7 @@
  * |s| a candidate sign must reach before the flip is confirmed. Well outside the
  * ripple of a stable axis (which stays above 0.9 for any sane nudge), and well
  * inside the ±1 an actual flip reaches.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const FLIP_CONFIRM_THRESHOLD = 0.5;
 

@@ -233,7 +233,10 @@ export function isAxisStable(inertia: InertiaTensor, axis: 0 | 1 | 2): boolean {
   return (own - others[0]) * (own - others[1]) > 0;
 }
 
-/** Index of the intermediate principal axis — the unstable one. */
+/**
+ * Index of the intermediate principal axis — the unstable one.
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function intermediateAxis(inertia: InertiaTensor): 0 | 1 | 2 {
   const indices: Array<0 | 1 | 2> = [0, 1, 2];
   return indices.find((axis) => !isAxisStable(inertia, axis)) ?? 1;
