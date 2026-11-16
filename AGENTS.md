@@ -242,6 +242,10 @@ Panel notes and warnings must be `RichText` with `lineWrap`, not `Text` with `ma
 A `Text` node given only a `maxWidth` *scales the glyphs down* to fit on one line, so a
 sentence at 11 px ends up illegible; `lineWrap` wraps it instead.
 
+## Compliance carve-outs
+
+- `.github/workflows/ci.yml`: `unused-mode: advisory` until both Knip default and production baselines are reviewed and cleared ([Baton/doc/knip.md](https://github.com/OpenLyceum/Baton/blob/main/doc/knip.md)).
+
 ## Testing
 
 | Path | Purpose |
