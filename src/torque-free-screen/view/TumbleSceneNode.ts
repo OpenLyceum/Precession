@@ -57,7 +57,7 @@ const ARROW = { headHeight: 11, headWidth: 10, tailWidth: 3 } as const;
 function createInertiaCard(model: TorqueFreeModel): Node {
   const torqueFree = StringManager.getInstance().getTorqueFreeStrings();
   const rows: Node[] = [];
-  const entries: Array<[TReadOnlyProperty<string>, number, typeof PrecessionColors.textColorProperty]> = [
+  const entries: [TReadOnlyProperty<string>, number, typeof PrecessionColors.textColorProperty][] = [
     [torqueFree.inertiaI1StringProperty, model.inertia.i1, PrecessionColors.wheelBodyColorProperty],
     [torqueFree.inertiaI2StringProperty, model.inertia.i2, PrecessionColors.torqueColorProperty],
     [torqueFree.inertiaI3StringProperty, model.inertia.i3, PrecessionColors.weightColorProperty],

@@ -42,7 +42,7 @@ export type BoxPalette = {
  * The six faces, each as an outward normal plus the four corners in counterclockwise
  * order seen from outside. Signs are in units of the half-extents.
  */
-const FACES: ReadonlyArray<{ normal: Vector3; corners: ReadonlyArray<Vector3>; axis: 0 | 1 | 2 }> = [
+const FACES: ReadonlyArray<{ normal: Vector3; corners: readonly Vector3[]; axis: 0 | 1 | 2 }> = [
   {
     axis: 0,
     normal: new Vector3(1, 0, 0),
