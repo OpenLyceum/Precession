@@ -50,7 +50,7 @@ import {
 const SLOW_MOTION_FACTOR = 0.25;
 
 export class NutationModel implements TModel {
-  public readonly timer = new TimeModel(true);
+  public readonly timer = new TimeModel({ initiallyPlaying: true });
 
   /** Normal or slow motion. Nutation and precession differ by roughly 5× in rate. */
   public readonly timeSpeedProperty = new EnumerationProperty(TimeSpeed.NORMAL);

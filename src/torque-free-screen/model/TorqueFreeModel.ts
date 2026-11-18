@@ -73,7 +73,7 @@ const SLOW_MOTION_FACTOR = 0.25;
 export type OmegaSample = { readonly t: number; readonly x: number; readonly y: number; readonly z: number };
 
 export class TorqueFreeModel implements TModel {
-  public readonly timer = new TimeModel(true);
+  public readonly timer = new TimeModel({ initiallyPlaying: true });
   public readonly timeSpeedProperty = new EnumerationProperty(TimeSpeed.NORMAL);
 
   // ── Launch parameters ───────────────────────────────────────────────────────

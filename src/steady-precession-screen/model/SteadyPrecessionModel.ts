@@ -36,7 +36,7 @@ import {
 const SLOW_MOTION_FACTOR = 0.25;
 
 export class SteadyPrecessionModel implements TModel {
-  public readonly timer = new TimeModel(true);
+  public readonly timer = new TimeModel({ initiallyPlaying: true });
 
   /**
    * Normal or slow motion. Ω runs up to about 1 Hz across the sliders, which is quick
