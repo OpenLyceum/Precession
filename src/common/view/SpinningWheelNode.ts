@@ -18,7 +18,7 @@
  *     markings blur out instead of lying about the rate.
  */
 
-import { type Vector2, Vector3 } from "scenerystack/dot";
+import { roundSymmetric, type Vector2, Vector3 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { type Color, LinearGradient, Node, Path } from "scenerystack/scenery";
 import {
@@ -157,7 +157,7 @@ export class SpinningWheelNode extends Node {
     // ── Painted quadrants ─────────────────────────────────────────────────────
     // Two opposite quadrants: at any tilt at least one of them stays in view, so
     // the spin never disappears the way a single radial spoke does.
-    const quadrantSamples = Math.max(6, Math.round(RIM_SAMPLES / 4));
+    const quadrantSamples = Math.max(6, roundSymmetric(RIM_SAMPLES / 4));
     this.sectorPath.shape = quadrantShape(nearCircle, psiDisplay, quadrantSamples);
     const markingShade = shadeFactor(faceNormal);
     this.sectorPath.fill = shadeColor(palette.marking, markingShade);
