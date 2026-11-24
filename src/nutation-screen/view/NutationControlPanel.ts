@@ -7,7 +7,7 @@
  */
 
 import { DerivedProperty, type NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
-import { Dimension2, Range, toFixed } from "scenerystack/dot";
+import { Dimension2, Range, roundSymmetric, toFixed } from "scenerystack/dot";
 import { type Color, HBox, Line, type Node, RichText, Text, VBox } from "scenerystack/scenery";
 import { NumberControl, PhetFont } from "scenerystack/scenery-phet";
 import { Checkbox, ComboBox, RectangularPushButton } from "scenerystack/sun";
@@ -88,8 +88,8 @@ export class NutationControlPanel extends PrecessionPanel {
     );
 
     const tiltDegreeRange = new Range(
-      Math.round(NUTATION_TILT_RANGE.min * DEGREES_PER_RADIAN),
-      Math.round(NUTATION_TILT_RANGE.max * DEGREES_PER_RADIAN),
+      roundSymmetric(NUTATION_TILT_RANGE.min * DEGREES_PER_RADIAN),
+      roundSymmetric(NUTATION_TILT_RANGE.max * DEGREES_PER_RADIAN),
     );
     const tiltControl = createNumberControl(
       strings.initialTiltStringProperty,

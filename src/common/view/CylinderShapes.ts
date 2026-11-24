@@ -13,6 +13,7 @@
  */
 
 import type { Vector3 } from "scenerystack/dot";
+import { roundSymmetric } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import {
   type Camera3D,
@@ -75,7 +76,7 @@ export function cylinderShapes(
   if (offsetLength >= BAND_EPSILON) {
     const unit = offset.timesScalar(1 / offsetLength);
     const alpha1 = Math.atan2(plusCircle.b.dot(unit), plusCircle.a.dot(unit));
-    const half = Math.max(2, Math.round(samples / 2));
+    const half = Math.max(2, roundSymmetric(samples / 2));
     band = Shape.polygon([
       ...circleArcPoints(plusCircle, alpha1 - Math.PI / 2, Math.PI, half),
       ...circleArcPoints(minusCircle, alpha1 + Math.PI / 2, Math.PI, half),

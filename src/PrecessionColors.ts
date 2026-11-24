@@ -23,6 +23,8 @@
  * Add a new ProfileColorProperty entry to the PrecessionColors object below.
  * Always provide both "default" and "projector" values.
  */
+
+import { roundSymmetric } from "scenerystack/dot";
 import { Color, ProfileColorProperty } from "scenerystack/scenery";
 import PrecessionNamespace from "./PrecessionNamespace.js";
 
@@ -35,9 +37,9 @@ import PrecessionNamespace from "./PrecessionNamespace.js";
  */
 export function shadeColor(base: Color, factor: number): Color {
   return new Color(
-    Math.round(Math.min(255, base.red * factor)),
-    Math.round(Math.min(255, base.green * factor)),
-    Math.round(Math.min(255, base.blue * factor)),
+    roundSymmetric(Math.min(255, base.red * factor)),
+    roundSymmetric(Math.min(255, base.green * factor)),
+    roundSymmetric(Math.min(255, base.blue * factor)),
     base.alpha,
   );
 }
